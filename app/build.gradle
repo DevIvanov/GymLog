@@ -53,14 +53,15 @@ dependencies {
 //    // Data layer
 //    api globalDependencies.layerData
 
-
-    implementation 'androidx.core:core-ktx:1.9.0'
     implementation globalDependencies.composeUi
     implementation globalDependencies.compodeMaterial
     implementation globalDependencies.composeUiTooling
-//    implementation "androidx.compose.ui:ui:$compose_version"
-//    implementation "androidx.compose.material:material:$compose_version"
-//    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+
+    // Navigation
+    implementation globalDependencies.navCompose
+
+    // common
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.activity:activity-compose:1.6.1'
     testImplementation 'junit:junit:4.13.2'

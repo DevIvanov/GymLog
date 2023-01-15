@@ -1,7 +1,10 @@
 package com.ivanovdev.gymlog
 
+import android.app.Activity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
@@ -9,9 +12,23 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.ivanovdev.gymlog.screen.Screen
+import com.ivanovdev.gymlog.screen.main.MainScreen
 import com.ivanovdev.gymlog.screen.splash.SplashScreen
 import com.ivanovdev.gymlog.ui.theme.GymLogTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,9 +40,38 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    SplashScreen()
+                    MyAppNavHost(
+                        activity = this
+                    )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun MyAppNavHost(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    startDestination: String = Screen.Splash.route,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    activity: Activity,
+) {
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = startDestination
+    ) {
+        composable(Screen.Splash.route) { SplashScreen() }
+        composable(Screen.Main.route) {
+            MainScreen()
+            BackHandler(true) { }
+        }
+
+        lifecycleOwner.lifecycleScope.launch {
+            delay(2000L)
+            WindowCompat.setDecorFitsSystemWindows(activity.window, true)
+            navController.navigate(Screen.Main.route)
         }
     }
 }
