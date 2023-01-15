@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -53,6 +55,14 @@ dependencies {
 //    // Data layer
 //    api globalDependencies.layerData
 
+    // Import the Firebase BoM
+    implementation platform ('com.google.firebase:firebase-bom:31.1.1')
+
+    // Crashlytics and Analytics
+    implementation appDependencies.crashlytics
+    implementation appDependencies.analytics
+
+    // Compose
     implementation globalDependencies.composeUi
     implementation globalDependencies.compodeMaterial
     implementation globalDependencies.composeUiTooling
@@ -60,7 +70,7 @@ dependencies {
     // Navigation
     implementation globalDependencies.navCompose
 
-    // common
+    // Common
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.activity:activity-compose:1.6.1'

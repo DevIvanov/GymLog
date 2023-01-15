@@ -22,6 +22,7 @@ import com.ivanovdev.gymlog.screen.NavigationItem
 import com.ivanovdev.gymlog.screen.home.HomeScreen
 import com.ivanovdev.gymlog.screen.logger.LoggerScreen
 import com.ivanovdev.gymlog.screen.profile.ProfileScreen
+import com.ivanovdev.gymlog.screen.statistic.StatisticScreen
 import com.ivanovdev.gymlog.ui.theme.Primary
 import com.ivanovdev.gymlog.ui.theme.PrimaryDark
 
@@ -43,6 +44,7 @@ fun MainScreen() {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
+        NavigationItem.Statistic,
         NavigationItem.Home,
         NavigationItem.Logger,
         NavigationItem.Profile
@@ -87,6 +89,9 @@ fun BottomNavigationBar(navController: NavController) {
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(navController, startDestination = NavigationItem.Home.route) {
+        composable(NavigationItem.Statistic.route) {
+            StatisticScreen()
+        }
         composable(NavigationItem.Home.route) {
             HomeScreen()
         }

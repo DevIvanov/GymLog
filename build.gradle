@@ -1,5 +1,16 @@
 buildscript {
     apply from: 'dependencies.gradle'
+
+//    repositories {
+//        google()
+//        mavenCentral()
+//        gradlePluginPortal()
+//    }
+
+    dependencies {
+        classpath globalDependencies.googleServicesPlugin
+        classpath globalDependencies.crashlyticsPlugin
+    }
 }
 
 plugins {

@@ -10,9 +10,9 @@ def libraryVersions = [
 
 //        androidGradlePluginVersion  : '7.4.0',
 //        kotlinGradlePluginVersion   : '1.7.20',
-//        googleServicesPluginVersion: '4.3.13',
-//        crashlyticsPluginVersion   : '2.9.1',
-//
+        googleServicesPluginVersion: '4.3.14',
+        crashlyticsPluginVersion   : '2.9.2',
+
 //        coreKtxVersion             : '1.7.0',
 //        constraintLayoutVersion    : '2.2.0-alpha01',
 //        recyclerViewVersion        : '1.2.1',
@@ -61,13 +61,13 @@ ext {
         compodeMaterial         : "androidx.compose.material:material:${libraryVersions.composeMaterialVerison}",
         composeUiTooling        : "androidx.compose.ui:ui-tooling-preview:${libraryVersions.composeUiVersion}",
 
-        navCompose              : "androidx.navigation:navigation-compose:${libraryVersions.navComposeVersion}"
+        navCompose              : "androidx.navigation:navigation-compose:${libraryVersions.navComposeVersion}",
 
 //            hiltAndroid             : "com.google.dagger:hilt-android:${libraryVersions.hilt}",
 //            hiltAndroidCompiler     : "com.google.dagger:hilt-android-compiler:${libraryVersions.hilt}",
-//
-//            googleServicesPlugin    : "com.google.gms:google-services:${libraryVersions.googleServicesPluginVersion}",
-//            crashlyticsPlugin       : "com.google.firebase:firebase-crashlytics-gradle:${libraryVersions.crashlyticsPluginVersion}"
+
+        googleServicesPlugin    : "com.google.gms:google-services:${libraryVersions.googleServicesPluginVersion}",
+        crashlyticsPlugin       : "com.google.firebase:firebase-crashlytics-gradle:${libraryVersions.crashlyticsPluginVersion}"
     ]
 
     /**
@@ -100,9 +100,9 @@ ext {
 //
 //            hiltViewModel              : "androidx.hilt:hilt-lifecycle-viewmodel:${libraryVersions.hiltViewModelVersion}",
 //            hiltCompiler               : "androidx.hilt:hilt-compiler:${libraryVersions.hiltCompilerVersion}",
-//
-//            crashlytics                : "com.google.firebase:firebase-crashlytics-ktx",
-//            analytics                  : "com.google.firebase:firebase-analytics-ktx"
+
+            crashlytics                : "com.google.firebase:firebase-crashlytics-ktx",
+            analytics                  : "com.google.firebase:firebase-analytics-ktx"
 
     ]
 
