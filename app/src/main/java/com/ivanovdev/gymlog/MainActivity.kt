@@ -18,11 +18,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ivanovdev.gymlog.screen.Screen
-import com.ivanovdev.gymlog.screen.main.MainScreen
-import com.ivanovdev.gymlog.screen.new_log.NewLogScreen
-import com.ivanovdev.gymlog.screen.splash.SplashScreen
-import com.ivanovdev.gymlog.ui.theme.GymLogTheme
+import com.ivanovdev.feature.screen.Screen
+import com.ivanovdev.feature.screen.main.MainScreen
+import com.ivanovdev.feature.screen.new_log.NewLogScreen
+import com.ivanovdev.feature.screen.splash.SplashScreen
+import com.ivanovdev.feature.ui.theme.GymLogTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

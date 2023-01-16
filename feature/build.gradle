@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         minSdk 26
-        targetSdk 32
+        targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -27,9 +27,24 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.3.2" //Compose compiler add to dependency TODO
+    }
 }
 
 dependencies {
     // Library layer
     api globalDependencies.layerLibrary
+
+    // Compose
+    api globalDependencies.composeUi
+    api globalDependencies.compodeMaterial
+    api globalDependencies.composeUiTooling
+    api globalDependencies.composeLifecycle
+
+    // Navigation
+    api globalDependencies.navCompose
 }

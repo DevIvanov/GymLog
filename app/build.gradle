@@ -66,15 +66,13 @@ dependencies {
     kapt appDependencies.hiltCompiler
 //    implementation appDependencies.hiltViewModel
 
-    // Compose Hilt viewModel
-    implementation globalDependencies.composeHiltNavigation
+//    // Compose Hilt viewModel
+//    implementation globalDependencies.composeHiltNavigation
 
-    // Compose
-    implementation globalDependencies.composeUi
-    implementation globalDependencies.compodeMaterial
-    implementation globalDependencies.composeUiTooling
-    implementation globalDependencies.composeLifecycle
-
-    // Navigation
-    implementation globalDependencies.navCompose
+//    // Common
+//    implementation globalDependencies.coreKtx
+//
+//    // Kotlin Coroutines
+//    api domainDependencies.coroutinesCore
+//    api domainDependencies.coroutinesAndroid
 }
