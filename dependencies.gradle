@@ -15,7 +15,7 @@ def libraryVersions = [
         googleServicesPluginVersion : '4.3.14',
         crashlyticsPluginVersion    : '2.9.2',
 
-        coreKtxVersion              : '1.7.0',
+        coreKtxVersion              : '1.9.0',
 //        constraintLayoutVersion    : '2.2.0-alpha01',
 //        recyclerViewVersion        : '1.2.1',
 //        lifecycleVersion           : '2.5.0-rc01',
@@ -48,9 +48,9 @@ ext {
 
     globalDependencies = [
 
-//            layerApp                : project(":app"),
-//            layerFeature            : project(":feature"),
-//            layerCore               : project(":core"),
+            layerApp                : project(":app"),
+            layerFeature            : project(":feature"),
+            layerLibrary            : project(":library"),
 
 //        androidGradlePlugin     : "com.android.tools.build:gradle:${libraryVersions.androidGradlePluginVersion}",
 //        kotlinGradlePlugin      : "org.jetbrains.kotlin:kotlin-gradle-plugin:${libraryVersions.kotlinGradlePluginVersion}",
