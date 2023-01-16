@@ -11,7 +11,7 @@ val L = 16.dp
 val XL = 20.dp
 val XXL = 24.dp
 
-val ImageSize = 50.dp
+val ImageSize = 60.dp
 
 val TextXXS = 8.sp
 val TextXS = 10.sp

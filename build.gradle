@@ -10,6 +10,7 @@ buildscript {
     dependencies {
         classpath globalDependencies.googleServicesPlugin
         classpath globalDependencies.crashlyticsPlugin
+        classpath globalDependencies.hiltAndroidPlugin
     }
 }
 

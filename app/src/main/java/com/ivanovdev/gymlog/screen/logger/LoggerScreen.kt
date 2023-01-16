@@ -18,7 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivanovdev.gymlog.R
+import com.ivanovdev.gymlog.screen.new_log.NewLogUiState
 import com.ivanovdev.gymlog.ui.common.ItemLog
 import com.ivanovdev.gymlog.ui.theme.L
 import com.ivanovdev.gymlog.ui.theme.PrimaryDark
@@ -26,7 +28,19 @@ import com.ivanovdev.gymlog.ui.theme.S
 import com.ivanovdev.gymlog.ui.theme.TextXL
 
 @Composable
-fun LoggerScreen() {
+fun LoggerScreen(
+    viewModel: LoggerViewModel = viewModel(),
+    newLogClick: () -> Unit = {}
+) {
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    LoggerScreen(uiState = uiState, newLogClick = newLogClick)
+}
+
+@Composable
+fun LoggerScreen(
+    uiState: NewLogUiState,
+    newLogClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .background(PrimaryDark)
@@ -50,19 +64,21 @@ fun LoggerScreen() {
 //            val list = resultList.value
             for (i in 0..100) {
                 item {
-                    ItemLog("name + $i", "date + $i", R.drawable.ic_home)
+                    ItemLog("Back + $i", "13.01.2023 + $i", "2300kg")
                 }
             }
         }
     }
     Box(
-        modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
             .padding(bottom = S, end = S),
         contentAlignment = Alignment.BottomEnd
     ) {
         FloatingActionButton(
-            onClick = { /*TODO*/ }
-        ){ Icon(Icons.Filled.Add,"")}
+            onClick = newLogClick
+        ){ Icon(Icons.Filled.Add,"") }
     }
 }
 

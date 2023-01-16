@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ivanovdev.gymlog.screen.Screen
 import com.ivanovdev.gymlog.screen.main.MainScreen
+import com.ivanovdev.gymlog.screen.new_log.NewLogScreen
 import com.ivanovdev.gymlog.screen.splash.SplashScreen
 import com.ivanovdev.gymlog.ui.theme.GymLogTheme
 import kotlinx.coroutines.delay
@@ -59,8 +60,11 @@ fun MyAppNavHost(
     ) {
         composable(Screen.Splash.route) { SplashScreen() }
         composable(Screen.Main.route) {
-            MainScreen()
+            MainScreen(navController)
             BackHandler(true) { }
+        }
+        composable(Screen.NewLog.route) {
+            NewLogScreen(onBackClick = { navController.navigateUp() })
         }
 
         lifecycleOwner.lifecycleScope.launch {

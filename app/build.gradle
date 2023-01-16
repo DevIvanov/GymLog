@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
 }
@@ -48,12 +50,11 @@ android {
 }
 
 dependencies {
+    // Domain layer
+    api globalDependencies.layerDomain
 
-//    // Domain layer
-//    api globalDependencies.layerDomain
-//
-//    // Data layer
-//    api globalDependencies.layerData
+    // Data layer
+    api globalDependencies.layerData
 
     // Import the Firebase BoM
     implementation platform ('com.google.firebase:firebase-bom:31.1.1')
@@ -61,6 +62,15 @@ dependencies {
     // Crashlytics and Analytics
     implementation appDependencies.crashlytics
     implementation appDependencies.analytics
+
+    // DI
+    kapt globalDependencies.hiltAndroidCompiler
+    implementation globalDependencies.hiltAndroid
+    kapt appDependencies.hiltCompiler
+//    implementation appDependencies.hiltViewModel
+
+    // Compose Hilt viewModel
+    implementation globalDependencies.composeHiltNavigation
 
     // Compose
     implementation globalDependencies.composeUi

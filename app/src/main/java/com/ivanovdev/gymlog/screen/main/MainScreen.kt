@@ -19,22 +19,24 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ivanovdev.gymlog.R
 import com.ivanovdev.gymlog.screen.NavigationItem
+import com.ivanovdev.gymlog.screen.Screen
 import com.ivanovdev.gymlog.screen.home.HomeScreen
 import com.ivanovdev.gymlog.screen.logger.LoggerScreen
+import com.ivanovdev.gymlog.screen.new_log.NewLogScreen
 import com.ivanovdev.gymlog.screen.profile.ProfileScreen
 import com.ivanovdev.gymlog.screen.statistic.StatisticScreen
 import com.ivanovdev.gymlog.ui.theme.Primary
 import com.ivanovdev.gymlog.ui.theme.PrimaryDark
 
 @Composable
-fun MainScreen() {
+fun MainScreen(mainNavController: NavController) {
     val navController = rememberNavController()
     Scaffold(
-        topBar = { TopBar() },
+//        topBar = { TopBar() },
         bottomBar = { BottomNavigationBar(navController) },
         content = { padding -> // We have to pass the scaffold inner padding to our content. That's why we use Box.
             Box(modifier = Modifier.padding(padding)) {
-                Navigation(navController = navController)
+                Navigation(mainNavController = mainNavController, navController = navController)
             }
         },
         backgroundColor = PrimaryDark // Set background color to avoid the white flashing when you switch between screens
@@ -87,7 +89,7 @@ fun BottomNavigationBar(navController: NavController) {
 }
 
 @Composable
-fun Navigation(navController: NavHostController) {
+fun Navigation(mainNavController: NavController, navController: NavHostController) {
     NavHost(navController, startDestination = NavigationItem.Home.route) {
         composable(NavigationItem.Statistic.route) {
             StatisticScreen()
@@ -96,11 +98,16 @@ fun Navigation(navController: NavHostController) {
             HomeScreen()
         }
         composable(NavigationItem.Logger.route) {
-            LoggerScreen()
+            LoggerScreen(
+                newLogClick = { mainNavController.navigate(Screen.NewLog.route) }
+            )
         }
         composable(NavigationItem.Profile.route) {
             ProfileScreen()
         }
+//        composable(Screen.NewLog.route) {
+//            NewLogScreen()
+//        }
     }
 }
 

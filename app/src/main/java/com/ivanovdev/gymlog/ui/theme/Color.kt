@@ -16,3 +16,4 @@ val GreyDivider = Color(0xFF6D6D6D)
 
 val BlackText = Color(0xFF1B1B1B)
 val GreyText = Color(0xFF3F3F3F)
+val GreyLightText = Color(0xFFB8B8B8)
