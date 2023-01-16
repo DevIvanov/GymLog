@@ -51,10 +51,10 @@ android {
 
 dependencies {
     // Domain layer
-    api globalDependencies.layerDomain
+//    api globalDependencies.layerDomain
 
     // Data layer
-    api globalDependencies.layerData
+//    api globalDependencies.layerData
 
     // Import the Firebase BoM
     implementation platform ('com.google.firebase:firebase-bom:31.1.1')
@@ -76,6 +76,7 @@ dependencies {
     implementation globalDependencies.composeUi
     implementation globalDependencies.compodeMaterial
     implementation globalDependencies.composeUiTooling
+    implementation globalDependencies.composeLifecycle
 
     // Navigation
     implementation globalDependencies.navCompose

@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,19 +27,20 @@ import com.ivanovdev.gymlog.ui.theme.L
 import com.ivanovdev.gymlog.ui.theme.PrimaryDark
 import com.ivanovdev.gymlog.ui.theme.S
 import com.ivanovdev.gymlog.ui.theme.TextXL
+import kotlinx.coroutines.flow.asStateFlow
 
 @Composable
 fun LoggerScreen(
     viewModel: LoggerViewModel = viewModel(),
     newLogClick: () -> Unit = {}
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState: LoggerUiState = viewModel.uiState.collectAsState().value//collectAsStateWithLifecycle()
     LoggerScreen(uiState = uiState, newLogClick = newLogClick)
 }
 
 @Composable
 fun LoggerScreen(
-    uiState: NewLogUiState,
+    uiState: LoggerUiState,
     newLogClick: () -> Unit = {}
 ) {
     Column(
