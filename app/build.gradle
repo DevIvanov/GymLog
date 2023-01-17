@@ -64,10 +64,6 @@ dependencies {
     kapt globalDependencies.hiltAndroidCompiler
     implementation globalDependencies.hiltAndroid
     kapt appDependencies.hiltCompiler
-//    implementation appDependencies.hiltViewModel
-
-//    // Compose Hilt viewModel
-//    implementation globalDependencies.composeHiltNavigation
 
 //    // Common
 //    implementation globalDependencies.coreKtx

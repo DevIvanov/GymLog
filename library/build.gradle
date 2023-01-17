@@ -30,9 +30,11 @@ android {
 }
 
 dependencies {
-    // DI
-    api globalDependencies.hiltAndroid
+    // Db layer
+    api globalDependencies.layerDb
+    // Data layer
+    api globalDependencies.layerData
+    // DomainModel layer
+    api globalDependencies.layerDomainModel
 
-    // Common
-    implementation globalDependencies.coreKtx
 }

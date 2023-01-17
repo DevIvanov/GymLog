@@ -23,9 +23,11 @@ import com.ivanovdev.feature.screen.main.MainScreen
 import com.ivanovdev.feature.screen.new_log.NewLogScreen
 import com.ivanovdev.feature.screen.splash.SplashScreen
 import com.ivanovdev.feature.ui.theme.GymLogTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

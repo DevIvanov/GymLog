@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -44,6 +45,14 @@ dependencies {
     api globalDependencies.compodeMaterial
     api globalDependencies.composeUiTooling
     api globalDependencies.composeLifecycle
+
+    // Compose Hilt viewModel
+    api globalDependencies.composeHiltNavigation
+
+    // DI
+    kapt globalDependencies.hiltAndroidCompiler
+    implementation globalDependencies.hiltAndroid
+    kapt appDependencies.hiltCompiler
 
     // Navigation
     api globalDependencies.navCompose

@@ -17,7 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivanovdev.feature.screen.logger.logic.LoggerUiState
+import com.ivanovdev.feature.screen.logger.logic.LoggerViewModel
 import com.ivanovdev.feature.ui.common.ItemLog
 import com.ivanovdev.feature.ui.theme.L
 import com.ivanovdev.feature.ui.theme.PrimaryDark
@@ -26,7 +29,7 @@ import com.ivanovdev.feature.ui.theme.TextXL
 
 @Composable
 fun LoggerScreen(
-    viewModel: LoggerViewModel = viewModel(),
+    viewModel: LoggerViewModel = hiltViewModel(),
     newLogClick: () -> Unit = {}
 ) {
     val uiState: LoggerUiState = viewModel.uiState.collectAsState().value//collectAsStateWithLifecycle()
@@ -38,34 +41,38 @@ fun LoggerScreen(
     uiState: LoggerUiState,
     newLogClick: () -> Unit = {}
 ) {
-    Column(
-        modifier = Modifier
-            .background(PrimaryDark)
-            .wrapContentSize(Alignment.Center)
-    ) {
-        Text(
-            text = "Logger",
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = TextXL
-        )
-        LazyColumn(
+    if (uiState is LoggerUiState.Success) {
+        val logList = uiState.data.collectAsState(initial = listOf())
+
+        Column(
             modifier = Modifier
-                .padding(top = L)
-                .fillMaxWidth()
-                .weight(1f)
-                .height(0.dp)
+                .background(PrimaryDark)
+                .wrapContentSize(Alignment.Center)
         ) {
-//            val list = resultList.value
-            for (i in 0..100) {
-                item {
-                    ItemLog("Back + $i", "13.01.2023 + $i", "2300kg")
+            Text(
+                text = "Logger",
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                textAlign = TextAlign.Center,
+                fontSize = TextXL
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .padding(top = L)
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .height(0.dp)
+            ) {
+                logList.value.forEach { log ->
+                    item {
+                        ItemLog("Back + ${log.type}", "13.01.2023", "2300kg")
+                    }
                 }
             }
         }
     }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()

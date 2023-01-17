@@ -16,6 +16,7 @@ def libraryVersions = [
         crashlyticsPluginVersion    : '2.9.2',
 
         coreKtxVersion              : '1.9.0',
+        serilizationVersion         : '1.2.2',
 //        constraintLayoutVersion    : '2.2.0-alpha01',
 //        recyclerViewVersion        : '1.2.1',
 //        lifecycleVersion           : '2.5.0-rc01',
@@ -47,10 +48,14 @@ ext {
      */
 
     globalDependencies = [
-
             layerApp                : project(":app"),
             layerFeature            : project(":feature"),
             layerLibrary            : project(":library"),
+            layerCommon             : project(":library:common"),
+            layerData               : project(":library:data"),
+            layerDb                 : project(":library:db"),
+            layerDomainModel        : project(":library:domainModel"),
+
 
 //        androidGradlePlugin     : "com.android.tools.build:gradle:${libraryVersions.androidGradlePluginVersion}",
 //        kotlinGradlePlugin      : "org.jetbrains.kotlin:kotlin-gradle-plugin:${libraryVersions.kotlinGradlePluginVersion}",
@@ -69,7 +74,9 @@ ext {
             hiltAndroidCompiler     : "com.google.dagger:hilt-android-compiler:${libraryVersions.hilt}",
 
             googleServicesPlugin    : "com.google.gms:google-services:${libraryVersions.googleServicesPluginVersion}",
-            crashlyticsPlugin       : "com.google.firebase:firebase-crashlytics-gradle:${libraryVersions.crashlyticsPluginVersion}"
+            crashlyticsPlugin       : "com.google.firebase:firebase-crashlytics-gradle:${libraryVersions.crashlyticsPluginVersion}",
+
+            serialization           : "org.jetbrains.kotlinx:kotlinx-serialization-json:${libraryVersions.serilizationVersion}"
     ]
 
     /**
@@ -107,18 +114,14 @@ ext {
 
     ]
 
-    /**
-     * Dependencies for data module
-     */
+    featureDependencies = [
+            hiltViewModel       : "androidx.hilt:hilt-lifecycle-viewmodel:${libraryVersions.hiltViewModelVersion}",
+    ]
 
-    dataDependencies = [
+    libraryDbDependencies = [
             room                : "androidx.room:room-ktx:${libraryVersions.roomVersion}",
             roomCompiler        : "androidx.room:room-compiler:${libraryVersions.roomVersion}"
     ]
-
-    /**
-     * Dependencies for domain module
-     */
 
     domainDependencies = [
 

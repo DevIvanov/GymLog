@@ -16,3 +16,7 @@ rootProject.name = "GymLog"
 include ':app'
 include ':feature'
 include ':library'
+include ':library:db'
+include ':library:common'
+include ':library:domainModel'
+include ':library:data'

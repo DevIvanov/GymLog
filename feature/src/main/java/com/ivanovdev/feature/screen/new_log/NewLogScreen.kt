@@ -1,36 +1,34 @@
 package com.ivanovdev.feature.screen.new_log
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.ivanovdev.feature.screen.new_log.logic.NewLogUiState
+import com.ivanovdev.feature.screen.new_log.logic.NewLogViewModel
 import com.ivanovdev.feature.ui.common.TopBarSecondary
 import com.ivanovdev.feature.ui.theme.PrimaryDark
 
 @Composable
 fun NewLogScreen(
-    viewModel: NewLogViewModel = viewModel(),
-    onBackClick: () -> Unit = {}
+    viewModel: NewLogViewModel = hiltViewModel(),
+    onBackClick: () -> Unit = {},
 ) {
     val uiState: NewLogUiState = viewModel.uiState.collectAsState().value//collectAsStateWithLifecycle()
-    NewLogScreen(uiState = uiState, onBackClick = onBackClick, onProgressClick = viewModel::onProgressClick)
+    NewLogScreen(uiState = uiState, onBackClick = onBackClick,
+        onProgressClick = viewModel::onProgressClick, submitClick = viewModel::submitClick)
 }
 
 @Composable
 fun NewLogScreen(
     uiState: NewLogUiState,
     onBackClick: () -> Unit = {},
-    onProgressClick: () -> Unit = {}
+    onProgressClick: () -> Unit = {},
+    submitClick: (String) -> Unit = {}
 ) {
     Scaffold(
         topBar = { TopBarSecondary(onBackClick = onBackClick, title = "New Log") },
@@ -38,7 +36,7 @@ fun NewLogScreen(
     ) { padding ->
         when (uiState) {
             is NewLogUiState.Loading -> LoadingNewLogScreen(padding) { onProgressClick() }
-            is NewLogUiState.Success -> SuccessNewLogScreen(padding)
+            is NewLogUiState.Success -> SuccessNewLogScreen(padding, submitClick)
             is NewLogUiState.Error -> {}
         }
     }
@@ -55,10 +53,20 @@ fun LoadingNewLogScreen(padding: PaddingValues, onClick: () -> Unit) {
 }
 
 @Composable
-fun SuccessNewLogScreen(padding: PaddingValues) {
-    Text(
-        text = "New Log Screen",
-        modifier = Modifier.padding(padding),
-        color = Color.White
-    )
+fun SuccessNewLogScreen(
+    padding: PaddingValues,
+    submitClick: (String) -> Unit
+) {
+    var name by remember { mutableStateOf("") }
+    Column() {
+        Text(
+            text = "New Log Screen",
+            modifier = Modifier.padding(padding),
+            color = Color.White
+        )
+        TextField(value = name, onValueChange = { name = it })
+        Button(onClick = { submitClick(name) }) {
+            Text(text = "Submit")
+        }
+    }
 }

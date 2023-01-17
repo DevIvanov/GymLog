@@ -1,4 +1,4 @@
-package com.ivanovdev.feature.screen.new_log
+package com.ivanovdev.feature.screen.new_log.logic
 
 sealed interface NewLogUiState {
     object Loading: NewLogUiState
