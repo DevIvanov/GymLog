@@ -1,9 +1,9 @@
-package com.ivanovdev.library.db.log.model
+package com.ivanovdev.library.domainmodel.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WorkoutContainer(
+data class Exercise(
     val id: Int,
     val name: String,
     val weight: Double,

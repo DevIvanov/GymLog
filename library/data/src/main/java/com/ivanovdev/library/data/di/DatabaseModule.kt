@@ -1,11 +1,11 @@
 package com.ivanovdev.library.data.di
 
 import android.content.Context
-import com.ivanovdev.library.data.mapper.LogMapperImpl
+import com.ivanovdev.library.data.mapper.WorkoutMapperImpl
 import com.ivanovdev.library.data.repository.DBRepository
 import com.ivanovdev.library.data.repository.DBRepositoryImpl
 import com.ivanovdev.library.db.GymDatabase
-import com.ivanovdev.library.db.log.LogDao
+import com.ivanovdev.library.db.workout.WorkoutDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,16 +25,16 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun getLogDao(roomDatabase: GymDatabase): LogDao {
-        return roomDatabase.logDao()
+    fun getWorkoutDao(roomDatabase: GymDatabase): WorkoutDao {
+        return roomDatabase.workoutDao()
     }
 
     @Provides
     fun getGymDBRepository(
         roomDatabase: GymDatabase,
-        mapperImpl: LogMapperImpl
+        mapperImpl: WorkoutMapperImpl
     ): DBRepository {
-        return DBRepositoryImpl(roomDatabase.logDao(), mapperImpl)
+        return DBRepositoryImpl(roomDatabase.workoutDao(), mapperImpl)
     }
 
 }

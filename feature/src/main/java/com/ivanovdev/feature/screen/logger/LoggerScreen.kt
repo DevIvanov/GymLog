@@ -66,7 +66,7 @@ fun LoggerScreen(
             ) {
                 logList.value.forEach { log ->
                     item {
-                        ItemLog("Back + ${log.type}", "13.01.2023", "2300kg")
+                        ItemLog(log.type, "13.01.2023", "${log.weightSum} kg")
                     }
                 }
             }

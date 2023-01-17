@@ -1,16 +1,16 @@
 package com.ivanovdev.library.data.repository
 
-import com.ivanovdev.library.domainmodel.model.Log
+import com.ivanovdev.library.domainmodel.model.Workout
 import kotlinx.coroutines.flow.Flow
 
 interface DBRepository {
 
-    fun readAll(): Flow<List<Log>>
+    fun readAll(): Flow<List<Workout>>
 
-    suspend fun insert(item: Log)
+    suspend fun insert(item: Workout)
 
-    suspend fun update(item: Log)
+    suspend fun update(item: Workout)
 
-    suspend fun delete(item: Log)
+    suspend fun delete(item: Workout)
 
 }

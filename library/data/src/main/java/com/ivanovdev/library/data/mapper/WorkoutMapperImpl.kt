@@ -1,46 +1,46 @@
 package com.ivanovdev.library.data.mapper
 
-import com.ivanovdev.library.db.log.LogEntity
-import com.ivanovdev.library.domainmodel.mapper.LogMapper
-import com.ivanovdev.library.domainmodel.model.Log
+import com.ivanovdev.library.db.workout.WorkoutEntity
+import com.ivanovdev.library.domainmodel.mapper.WorkoutMapper
 import com.ivanovdev.library.domainmodel.model.Workout
+import com.ivanovdev.library.domainmodel.model.Exercise
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
-class LogMapperImpl @Inject constructor() : LogMapper {
+class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun fromDomainToDb(domain: Log): LogEntity = with(domain) {
-        LogEntity(
+    override fun fromDomainToDb(domain: Workout): WorkoutEntity = with(domain) {
+        WorkoutEntity(
             id,
             date,
             type,
             weightSum,
-            compressWorkoutsWithValues(workouts)
+            compressExercisesWithValues(exercises)
         )
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun fromDbToDomain(db: LogEntity): Log = with(db) {
-        Log(
+    override fun fromDbToDomain(db: WorkoutEntity): Workout = with(db) {
+        Workout(
             id,
             date,
             type,
             weightSum,
-            decompressWorkoutsWithValues(workouts)
+            decompressExercisesWithValues(workouts)
         )
     }
 
     @ExperimentalSerializationApi
-    private fun compressWorkoutsWithValues(pairs: List<Workout>): String {
+    private fun compressExercisesWithValues(pairs: List<Exercise>): String {
         return Json.encodeToString(pairs)
     }
 
     @ExperimentalSerializationApi
-    private fun decompressWorkoutsWithValues(input: String): List<Workout> {
+    private fun decompressExercisesWithValues(input: String): List<Exercise> {
         return Json.decodeFromString(input)
     }
 

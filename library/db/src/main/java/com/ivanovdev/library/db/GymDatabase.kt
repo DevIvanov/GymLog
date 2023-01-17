@@ -5,13 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ivanovdev.library.common.C.Db.GYM_DATABASE
-import com.ivanovdev.library.db.log.LogDao
-import com.ivanovdev.library.db.log.LogEntity
+import com.ivanovdev.library.db.workout.WorkoutDao
+import com.ivanovdev.library.db.workout.WorkoutEntity
 
-@Database(entities = [LogEntity::class], version = 1, exportSchema = false)
+@Database(entities = [WorkoutEntity::class], version = 1, exportSchema = false)
 abstract class GymDatabase: RoomDatabase() {
 
-    abstract fun logDao(): LogDao
+    abstract fun workoutDao(): WorkoutDao
 
     companion object {
         @Volatile

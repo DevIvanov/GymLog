@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivanovdev.feature.screen.new_log.models.NewLogEvent
 import com.ivanovdev.feature.screen.new_log.models.NewLogUiState
 import com.ivanovdev.library.data.base.EventHandler
-import com.ivanovdev.library.domainmodel.model.Log
+import com.ivanovdev.library.domainmodel.model.Workout
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,12 +41,12 @@ class NewLogViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 interactor.insertData(
-                    Log(
+                    Workout(
                         id = 0,
                         date = System.currentTimeMillis(),
                         type = state.name,
                         weightSum = 2300.0,
-                        workouts = emptyList()
+                        exercises = emptyList()
                     )
                 )
                 _uiState.value = NewLogUiState.Success
