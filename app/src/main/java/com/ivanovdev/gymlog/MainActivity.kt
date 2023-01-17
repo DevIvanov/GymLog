@@ -66,7 +66,7 @@ fun MyAppNavHost(
             BackHandler(true) { }
         }
         composable(Screen.NewLog.route) {
-            NewLogScreen(onBackClick = { navController.navigateUp() })
+            NewLogScreen( navController = navController)
         }
 
         lifecycleOwner.lifecycleScope.launch {

@@ -1,72 +1,85 @@
 package com.ivanovdev.feature.screen.new_log
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ivanovdev.feature.screen.new_log.logic.NewLogUiState
+import androidx.navigation.NavController
 import com.ivanovdev.feature.screen.new_log.logic.NewLogViewModel
+import com.ivanovdev.feature.screen.new_log.models.NewLogError
+import com.ivanovdev.feature.screen.new_log.models.NewLogEvent
+import com.ivanovdev.feature.screen.new_log.models.NewLogUiState
+import com.ivanovdev.feature.screen.new_log.views.NewLogViewError
+import com.ivanovdev.feature.screen.new_log.views.NewLogViewLoading
+import com.ivanovdev.feature.screen.new_log.views.NewLogViewNew
+import com.ivanovdev.feature.screen.new_log.views.NewLogViewSuccess
 import com.ivanovdev.feature.ui.common.TopBarSecondary
 import com.ivanovdev.feature.ui.theme.PrimaryDark
 
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun NewLogScreen(
     viewModel: NewLogViewModel = hiltViewModel(),
-    onBackClick: () -> Unit = {},
+    navController: NavController,
 ) {
-    val uiState: NewLogUiState = viewModel.uiState.collectAsState().value//collectAsStateWithLifecycle()
-    NewLogScreen(uiState = uiState, onBackClick = onBackClick,
-        onProgressClick = viewModel::onProgressClick, submitClick = viewModel::submitClick)
-}
+    val uiState: NewLogUiState = viewModel.uiState.collectAsState().value
+    val keyboardController = LocalSoftwareKeyboardController.current
 
-@Composable
-fun NewLogScreen(
-    uiState: NewLogUiState,
-    onBackClick: () -> Unit = {},
-    onProgressClick: () -> Unit = {},
-    submitClick: (String) -> Unit = {}
-) {
     Scaffold(
-        topBar = { TopBarSecondary(onBackClick = onBackClick, title = "New Log") },
-        backgroundColor = PrimaryDark // Set background color to avoid the white flashing when you switch between screens
+        topBar = { TopBarSecondary(onBackClick = { navController.popBackStack() }, title = "New Log") },
+        backgroundColor = PrimaryDark
     ) { padding ->
         when (uiState) {
-            is NewLogUiState.Loading -> LoadingNewLogScreen(padding) { onProgressClick() }
-            is NewLogUiState.Success -> SuccessNewLogScreen(padding, submitClick)
+            is NewLogUiState.New -> NewLogViewNew(
+                padding = padding,
+                state = uiState,
+                onNameChanged = { viewModel.obtainEvent(NewLogEvent.NameChanged(it)) },
+                onSaveClicked = {
+                    keyboardController?.hide()
+                    viewModel.obtainEvent(NewLogEvent.SaveClicked)
+                }
+            )
+            is NewLogUiState.Edit -> NewLogViewError(
+                onCloseClick = { navController.popBackStack() }
+            )
+            is NewLogUiState.Success -> NewLogViewSuccess(
+                onCloseClick = { navController.popBackStack() }
+            )
             is NewLogUiState.Error -> {}
         }
     }
 
 }
 
-@Composable
-fun LoadingNewLogScreen(padding: PaddingValues, onClick: () -> Unit) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(padding), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(modifier = Modifier.clickable { onClick() })
-    }
-}
-
-@Composable
-fun SuccessNewLogScreen(
-    padding: PaddingValues,
-    submitClick: (String) -> Unit
-) {
-    var name by remember { mutableStateOf("") }
-    Column() {
-        Text(
-            text = "New Log Screen",
-            modifier = Modifier.padding(padding),
-            color = Color.White
-        )
-        TextField(value = name, onValueChange = { name = it })
-        Button(onClick = { submitClick(name) }) {
-            Text(text = "Submit")
-        }
-    }
-}
+//@ExperimentalComposeUiApi
+//@ExperimentalFoundationApi
+//@Composable
+//fun ComposeScreen(
+//    modifier: Modifier = Modifier,
+//    navController: NavController,
+//    composeViewModel: ComposeViewModel
+//) {
+//    val viewState = composeViewModel.composeViewState.observeAsState(initial = ComposeViewState.ViewStateInitial())
+//    val keyboardController = LocalSoftwareKeyboardController.current
+//
+//    when (val state = viewState.value) {
+//        is ComposeViewState.ViewStateInitial -> ComposeViewInitial(
+//            modifier = modifier,
+//            state = state,
+//            onCheckedChange = { composeViewModel.obtainEvent(ComposeEvent.CheckboxClicked(it)) },
+//            onTitleChanged = { composeViewModel.obtainEvent(ComposeEvent.TitleChanged(it)) },
+//            onSaveClicked = {
+//                keyboardController?.hide()
+//                composeViewModel.obtainEvent(ComposeEvent.SaveClicked)
+//            }
+//        )
+//
+//        is ComposeViewState.ViewStateSuccess -> ComposeViewSuccess(
+//            modifier = modifier,
+//            onCloseClick = { navController.popBackStack() }
+//        )
+//    }
+//}
