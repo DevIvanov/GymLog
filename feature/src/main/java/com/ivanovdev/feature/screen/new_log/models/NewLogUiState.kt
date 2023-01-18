@@ -1,15 +1,19 @@
 package com.ivanovdev.feature.screen.new_log.models
 
+import com.ivanovdev.library.domainmodel.model.Exercise
+import java.time.LocalDate
+
 sealed class NewLogUiState {
 
     data class New(
-        val name: String = "",
-        val date: Long = 0,
+        val name: String? = null,
+        val date: LocalDate? = null,
+        val exercises: List<Exercise> = listOf()
     ) : NewLogUiState()
 
     data class Edit(
-        val name: String = "",
-        val date: Long = 0, //TODO change type to date
+        val name: String? = null,
+        val date: LocalDate? = null,
         val sendingError: NewLogError? = null
     ) : NewLogUiState()
 

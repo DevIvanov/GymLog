@@ -32,7 +32,7 @@ android {
 
 dependencies {
     // Common layer
-    implementation globalDependencies.layerCommon
+    api globalDependencies.layerCommon
 
     // Room
     api libraryDbDependencies.room

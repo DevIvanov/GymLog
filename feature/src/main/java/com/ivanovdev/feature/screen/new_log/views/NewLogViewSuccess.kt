@@ -71,6 +71,6 @@ fun NewLogViewSuccess(
 
 @Composable
 @Preview
-fun ComposeViewSuccess_Preview() {
+fun NewLogViewSuccess_Preview() {
     NewLogViewSuccess(onCloseClick = {})
 }

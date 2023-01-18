@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Exercise(
     val id: Int,
-    val name: String,
-    val weight: Double,
-    val quantitySet: Int,
-    val iteration: Int
+    var name: String? = null,
+    var weight: Double? = null,
+    var quantitySet: Int? = null,
+    var iteration: Int? = null
 )

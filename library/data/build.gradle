@@ -32,7 +32,7 @@ android {
 
 dependencies {
     // Db layer
-    implementation globalDependencies.layerDb
+    api globalDependencies.layerDb
     // DomainModel layer
     implementation globalDependencies.layerDomainModel
 
