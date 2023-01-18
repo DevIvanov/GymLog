@@ -37,28 +37,37 @@ class NewLogViewModel @Inject constructor(
             is NewLogEvent.ChooseDate -> _uiState.value = currentState.copy(
                 date = event.newValue
             )
-            is NewLogEvent.TypeChanged -> {
-                _uiState.value = currentState.copy(name = event.newValue)
-                Timber.e("uiState.value = ${uiState.value}")
-            }
-            NewLogEvent.AddExerciseClicked -> {
-                Timber.e("NewLogEvent.AddExerciseClicked")
+            is NewLogEvent.TypeChanged -> _uiState.value = currentState.copy(
+                name = event.newValue
+            )
+            NewLogEvent.AddExercise -> {
                 _exercises.value.add(Exercise(id = _exercises.value.size))
-                _uiState.value = currentState.copy(exercises = _exercises.value)
-                Timber.e("exercises.value = ${_exercises.value}")
-                Timber.e("uiState.value = ${uiState.value}")
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    exercises = _exercises.value,
+                    notifyToUpdate = !update
+                )
+            }
+            is NewLogEvent.DeleteExercise -> {
+                _exercises.value.removeAt(event.index)
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    exercises = _exercises.value,
+                    notifyToUpdate = !update
+                )
             }
             is NewLogEvent.NameChanged -> {
-                Timber.e("NewLogEvent.NameChanged")
-                Timber.e("event.newValue = ${event.newValue}")
                 _exercises.value.find { it.id == event.index }?.name = event.newValue
-                _uiState.value = currentState.copy(exercises = _exercises.value)
-                Timber.e("exercises.value = ${_exercises.value}")
-                Timber.e("uiState.value = ${uiState.value}")
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    exercises = _exercises.value,
+                    notifyToUpdate = !update
+                )
             }
 
             NewLogEvent.SaveClicked -> saveWorkoutToDB(currentState)
         }
+
     }
 
     private fun saveWorkoutToDB(state: NewLogUiState.New) {

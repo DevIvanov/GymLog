@@ -1,14 +1,10 @@
 package com.ivanovdev.feature.screen.new_log
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -20,7 +16,6 @@ import com.ivanovdev.feature.screen.new_log.views.NewLogViewNew
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewSuccess
 import com.ivanovdev.feature.ui.common.TopBarSecondary
 import com.ivanovdev.feature.ui.theme.PrimaryDark
-import timber.log.Timber
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -30,8 +25,6 @@ fun NewLogScreen(
 ) {
     val uiState: NewLogUiState = viewModel.uiState.collectAsState().value
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    Timber.e("uiState = $uiState")
 
     Scaffold(
         topBar = { TopBarSecondary(onBackClick = { navController.popBackStack() }, title = "New Workout") },
@@ -43,12 +36,11 @@ fun NewLogScreen(
                 state = uiState,
                 onDateClick = { viewModel.obtainEvent(NewLogEvent.ChooseDate(it)) },
                 onTypeChanged = { viewModel.obtainEvent(NewLogEvent.TypeChanged(it)) },
+                onDeleteClick = { viewModel.obtainEvent(NewLogEvent.DeleteExercise(it)) },
                 onNameChanged = { value, string ->
                     viewModel.obtainEvent(NewLogEvent.NameChanged(value, string))
                  },
-                onAddExerciseClick = {
-                    viewModel.obtainEvent(NewLogEvent.AddExerciseClicked)
-                },
+                onAddClick = { viewModel.obtainEvent(NewLogEvent.AddExercise) },
                 onSaveClicked = {
                     keyboardController?.hide()
                     viewModel.obtainEvent(NewLogEvent.SaveClicked)

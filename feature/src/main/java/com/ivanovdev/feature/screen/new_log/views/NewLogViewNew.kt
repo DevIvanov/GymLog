@@ -26,7 +26,6 @@ import com.ivanovdev.library.domainmodel.model.Exercise
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -35,14 +34,12 @@ fun NewLogViewNew(
     state: NewLogUiState.New,
     onDateClick: (LocalDate) -> Unit,
     onTypeChanged: (String) -> Unit,
+    onDeleteClick: (Int) -> Unit,
     onNameChanged: (String, Int) -> Unit,
-    onAddExerciseClick: () -> Unit,
+    onAddClick: () -> Unit,
     onSaveClicked: () -> Unit,
 ) {
     val calendarState = rememberSheetState()
-
-    Timber.e("state.name = ${state.name}")
-    Timber.e("state.exercises = ${state.exercises}")
 
     CalendarDialog(
         state = calendarState,
@@ -107,10 +104,11 @@ fun NewLogViewNew(
                 .padding(top = M),
 //                .verticalScroll(ScrollState(0), false)
         ) {
-            state.exercises.forEachIndexed() { index, exercise ->
+            state.exercises?.forEachIndexed() { index, exercise ->
                 item {
                     ExerciseInfo(
                         exercise = exercise,
+                        onDeleteClick = onDeleteClick,
                         onNameChanged = onNameChanged,
                         index = index
                     )
@@ -119,7 +117,7 @@ fun NewLogViewNew(
         }
 
         Button(
-            onClick = { onAddExerciseClick() },
+            onClick = { onAddClick() },
             modifier = Modifier.padding(top = L)
         ) {
             Icon(
@@ -161,7 +159,11 @@ fun NewLogViewNew(
 //}
 
 @Composable
-fun ExerciseInfo(exercise: Exercise, onNameChanged: (String, Int) -> Unit, index: Int) {
+fun ExerciseInfo(
+    exercise: Exercise,
+    onDeleteClick: (Int) -> Unit,
+    onNameChanged: (String, Int) -> Unit,
+    index: Int) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -178,7 +180,7 @@ fun ExerciseInfo(exercise: Exercise, onNameChanged: (String, Int) -> Unit, index
             Icon(
                 Icons.Default.Delete,
                 modifier = Modifier.clickable {
-                    //TODO
+                    onDeleteClick(index)
                 },
                 contentDescription = "Delete",
                 tint = Color.White

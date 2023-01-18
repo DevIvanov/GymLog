@@ -8,7 +8,8 @@ sealed class NewLogUiState {
     data class New(
         val name: String? = null,
         val date: LocalDate? = null,
-        val exercises: List<Exercise> = listOf()
+        val exercises: List<Exercise>? = null,
+        val notifyToUpdate: Boolean = true
     ) : NewLogUiState()
 
     data class Edit(
