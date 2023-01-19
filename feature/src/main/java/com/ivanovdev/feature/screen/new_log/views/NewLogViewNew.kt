@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import com.ivanovdev.feature.R
@@ -36,6 +37,10 @@ fun NewLogViewNew(
     onTypeChanged: (String) -> Unit,
     onDeleteClick: (Int) -> Unit,
     onNameChanged: (String, Int) -> Unit,
+    onWeightChanged: (String, Int) -> Unit,
+    onIterationChanged: (String, Int) -> Unit,
+    onSetsChanged: (String, Int) -> Unit,
+    isOwnWeight: (Boolean, Int) -> Unit,
     onAddClick: () -> Unit,
     onSaveClicked: () -> Unit,
 ) {
@@ -105,6 +110,10 @@ fun NewLogViewNew(
                     exercise = exercise,
                     onDeleteClick = onDeleteClick,
                     onNameChanged = onNameChanged,
+                    onWeightChanged = onWeightChanged,
+                    onIterationChanged = onIterationChanged,
+                    onSetsChanged = onSetsChanged,
+                    isOwnWeight = isOwnWeight,
                     index = index
                 )
             }
@@ -159,6 +168,10 @@ fun ExerciseInfo(
     exercise: Exercise,
     onDeleteClick: (Int) -> Unit,
     onNameChanged: (String, Int) -> Unit,
+    onWeightChanged: (String, Int) -> Unit,
+    onIterationChanged: (String, Int) -> Unit,
+    onSetsChanged: (String, Int) -> Unit,
+    isOwnWeight: (Boolean, Int) -> Unit,
     index: Int
 ) {
     Column(
@@ -183,7 +196,6 @@ fun ExerciseInfo(
                 tint = Color.White
             )
         }
-
         OutlinedTextField(
             value = exercise.name ?: "",
             onValueChange = { onNameChanged(it, exercise.id) },
@@ -193,29 +205,36 @@ fun ExerciseInfo(
             textStyle = TextStyle(color = Color.White),
             label = { Text(text = "Exercise Name") }
         )
-        Row() {
+        Row(
+            modifier = Modifier.padding(bottom = M),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             OutlinedTextField(
                 value = exercise.weight?.toString() ?: "",
-                onValueChange = { },
+                onValueChange = { onWeightChanged(it, exercise.id) },
                 modifier = Modifier
-                    .weight(1 / 3f)
+                    .fillMaxWidth(0.5f)
                     .padding(end = M),
                 textStyle = TextStyle(color = Color.White),
                 label = { Text(text = "Weight") }
             )
+            Checkbox(checked = exercise.isOwnWeight, onCheckedChange = { isOwnWeight(it, exercise.id) })
+            Text(text = "Own weight", color = Color.White)
+        }
+        Row() {
             OutlinedTextField(
                 value = exercise.iteration?.toString() ?: "",
-                onValueChange = { },
+                onValueChange = { onIterationChanged(it, exercise.id) },
                 modifier = Modifier
-                    .weight(1 / 3f)
+                    .weight(1 / 2f)
                     .padding(end = M),
                 textStyle = TextStyle(color = Color.White),
                 label = { Text(text = "Iteration") }
             )
             OutlinedTextField(
                 value = exercise.quantitySet?.toString() ?: "",
-                onValueChange = { },
-                modifier = Modifier.weight(1 / 3f),
+                onValueChange = { onSetsChanged(it, exercise.id) },
+                modifier = Modifier.weight(1 / 2f),
                 textStyle = TextStyle(color = Color.White),
                 label = { Text(text = "Number of sets") }
             )

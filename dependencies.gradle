@@ -56,7 +56,6 @@ ext {
             layerDb                 : project(":library:db"),
             layerDomainModel        : project(":library:domainModel"),
 
-
 //        androidGradlePlugin     : "com.android.tools.build:gradle:${libraryVersions.androidGradlePluginVersion}",
 //        kotlinGradlePlugin      : "org.jetbrains.kotlin:kotlin-gradle-plugin:${libraryVersions.kotlinGradlePluginVersion}",
             coreKtx                 : "androidx.core:core-ktx:${libraryVersions.coreKtxVersion}",

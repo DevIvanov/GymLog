@@ -7,6 +7,7 @@ data class Exercise(
     val id: Int,
     var name: String? = null,
     var weight: Double? = null,
+    var isOwnWeight: Boolean = false,
     var quantitySet: Int? = null,
     var iteration: Int? = null
 )

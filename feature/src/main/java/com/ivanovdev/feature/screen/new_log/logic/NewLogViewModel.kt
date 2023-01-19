@@ -64,13 +64,53 @@ class NewLogViewModel @Inject constructor(
                 )
             }
             is NewLogEvent.NameChanged -> {
-                _exercises.value.find { it.id == event.index }?.name = event.newValue
+                _exercises.value.find { it.id == event.id }?.name = event.newValue
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     exercises = _exercises.value,
                     notifyToUpdate = !update
                 )
-                Timber.e("_uiState = ${_uiState.value}")
+            }
+            is NewLogEvent.WeightChanged -> {
+                try {
+                    _exercises.value.find { it.id == event.id }?.weight =
+                        event.newValue.toDouble()
+                } catch (e: NumberFormatException) { Timber.e(e.message) }
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    exercises = _exercises.value,
+                    notifyToUpdate = !update
+                )
+            }
+            is NewLogEvent.IterationChanged -> {
+                try {
+                    _exercises.value.find { it.id == event.id }?.iteration =
+                        event.newValue.toInt()
+                } catch (e: NumberFormatException) { Timber.e(e.message) }
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    exercises = _exercises.value,
+                    notifyToUpdate = !update
+                )
+            }
+            is NewLogEvent.SetsChanged -> {
+                try {
+                    _exercises.value.find { it.id == event.id }?.quantitySet =
+                        event.newValue.toInt()
+                } catch (e: NumberFormatException) { Timber.e(e.message) }
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    exercises = _exercises.value,
+                    notifyToUpdate = !update
+                )
+            }
+            is NewLogEvent.IsOwnWeight -> {
+                _exercises.value.find { it.id == event.id }?.isOwnWeight = event.newValue
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    exercises = _exercises.value,
+                    notifyToUpdate = !update
+                )
             }
 
             NewLogEvent.SaveClicked -> saveWorkoutToDB(currentState)

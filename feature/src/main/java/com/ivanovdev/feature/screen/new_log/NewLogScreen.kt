@@ -37,9 +37,21 @@ fun NewLogScreen(
                 onDateClick = { viewModel.obtainEvent(NewLogEvent.ChooseDate(it)) },
                 onTypeChanged = { viewModel.obtainEvent(NewLogEvent.TypeChanged(it)) },
                 onDeleteClick = { viewModel.obtainEvent(NewLogEvent.DeleteExercise(it)) },
-                onNameChanged = { value, string ->
-                    viewModel.obtainEvent(NewLogEvent.NameChanged(value, string))
-                 },
+                onNameChanged = { value, int ->
+                    viewModel.obtainEvent(NewLogEvent.NameChanged(value, int))
+                },
+                onWeightChanged = { value, id ->
+                    viewModel.obtainEvent(NewLogEvent.WeightChanged(value, id))
+                },
+                onIterationChanged = { value, id ->
+                    viewModel.obtainEvent(NewLogEvent.IterationChanged(value, id))
+                },
+                onSetsChanged = { value, id ->
+                    viewModel.obtainEvent(NewLogEvent.SetsChanged(value, id))
+                },
+                isOwnWeight = { value, id ->
+                    viewModel.obtainEvent(NewLogEvent.IsOwnWeight(value, id))
+                },
                 onAddClick = { viewModel.obtainEvent(NewLogEvent.AddExercise) },
                 onSaveClicked = {
                     keyboardController?.hide()
