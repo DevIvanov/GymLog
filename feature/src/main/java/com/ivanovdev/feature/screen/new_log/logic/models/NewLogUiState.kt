@@ -2,22 +2,22 @@ package com.ivanovdev.feature.screen.new_log.logic.models
 
 import java.time.LocalDate
 
-sealed class NewLogUiState {
+sealed interface NewLogUiState {
 
     data class New(
         val name: String? = null,
         val date: LocalDate? = null,
         val exercises: List<UiExercise> = listOf(),
         val notifyToUpdate: Boolean = true
-    ) : NewLogUiState()
+    ) : NewLogUiState
 
     data class Edit(
         val name: String? = null,
         val date: LocalDate? = null,
         val sendingError: NewLogError? = null
-    ) : NewLogUiState()
+    ) : NewLogUiState
 
-    object Success : NewLogUiState()
+    object Success : NewLogUiState
 
-    object Error : NewLogUiState()
+    object Error : NewLogUiState
 }

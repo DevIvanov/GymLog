@@ -19,7 +19,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ivanovdev.feature.R
 import com.ivanovdev.feature.screen.NavigationItem
-import com.ivanovdev.feature.screen.Screen
 import com.ivanovdev.feature.screen.home.HomeScreen
 import com.ivanovdev.feature.screen.logger.LoggerScreen
 import com.ivanovdev.feature.screen.profile.ProfileScreen
@@ -97,16 +96,11 @@ fun Navigation(mainNavController: NavController, navController: NavHostControlle
             HomeScreen()
         }
         composable(NavigationItem.Logger.route) {
-            LoggerScreen(
-                newLogClick = { mainNavController.navigate(Screen.NewLog.route) }
-            )
+            LoggerScreen(mainNavController = mainNavController)
         }
         composable(NavigationItem.Profile.route) {
             ProfileScreen()
         }
-//        composable(Screen.NewLog.route) {
-//            NewLogScreen()
-//        }
     }
 }
 

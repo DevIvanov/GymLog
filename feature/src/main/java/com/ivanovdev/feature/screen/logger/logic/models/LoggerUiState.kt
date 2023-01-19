@@ -1,4 +1,4 @@
-package com.ivanovdev.feature.screen.logger.logic
+package com.ivanovdev.feature.screen.logger.logic.models
 
 import com.ivanovdev.library.domainmodel.model.Workout
 import kotlinx.coroutines.flow.Flow

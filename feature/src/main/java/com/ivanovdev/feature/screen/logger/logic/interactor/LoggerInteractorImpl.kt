@@ -1,4 +1,4 @@
-package com.ivanovdev.feature.screen.logger.logic
+package com.ivanovdev.feature.screen.logger.logic.interactor
 
 import com.ivanovdev.library.data.repository.DBRepository
 import com.ivanovdev.library.domainmodel.model.Workout

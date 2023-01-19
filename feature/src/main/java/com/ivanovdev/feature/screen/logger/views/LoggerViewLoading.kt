@@ -1,4 +1,4 @@
-package com.ivanovdev.feature.screen.new_log.views
+package com.ivanovdev.feature.screen.logger.views
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues

@@ -1,7 +1,7 @@
 package com.ivanovdev.feature.di
 
-import com.ivanovdev.feature.screen.logger.logic.LoggerInteractor
-import com.ivanovdev.feature.screen.logger.logic.LoggerInteractorImpl
+import com.ivanovdev.feature.screen.logger.logic.interactor.LoggerInteractor
+import com.ivanovdev.feature.screen.logger.logic.interactor.LoggerInteractorImpl
 import com.ivanovdev.library.data.repository.DBRepository
 import dagger.Module
 import dagger.Provides
