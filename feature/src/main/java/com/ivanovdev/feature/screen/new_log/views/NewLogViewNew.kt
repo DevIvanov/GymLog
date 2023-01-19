@@ -99,7 +99,7 @@ fun NewLogViewNew(
             )
         }
 
-        state.exercises?.forEachIndexed() { index, exercise ->
+        state.exercises?.forEachIndexed { index, exercise ->
             item {
                 ExerciseInfo(
                     exercise = exercise,
@@ -186,7 +186,7 @@ fun ExerciseInfo(
 
         OutlinedTextField(
             value = exercise.name ?: "",
-            onValueChange = { onNameChanged(it, index) },
+            onValueChange = { onNameChanged(it, exercise.id) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = M),

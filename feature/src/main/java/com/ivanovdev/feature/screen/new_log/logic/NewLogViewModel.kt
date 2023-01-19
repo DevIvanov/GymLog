@@ -41,7 +41,14 @@ class NewLogViewModel @Inject constructor(
                 name = event.newValue
             )
             NewLogEvent.AddExercise -> {
-                _exercises.value.add(Exercise(id = _exercises.value.size))
+                val id = try {
+                    _exercises.value.maxBy { it.id }.id + 1
+                } catch (e: Exception) {
+                    Timber.e(e.message)
+                    0
+                }
+                Timber.d("id = $id")
+                _exercises.value.add(Exercise(id = id))
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     exercises = _exercises.value,
@@ -63,6 +70,7 @@ class NewLogViewModel @Inject constructor(
                     exercises = _exercises.value,
                     notifyToUpdate = !update
                 )
+                Timber.e("_uiState = ${_uiState.value}")
             }
 
             NewLogEvent.SaveClicked -> saveWorkoutToDB(currentState)
