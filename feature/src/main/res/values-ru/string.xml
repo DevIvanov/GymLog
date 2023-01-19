@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GymLog</string>
+
+    <string name="title_statistic">Статистика</string>
+    <string name="title_home">Главная</string>
+    <string name="title_logger">Журнал</string>
+    <string name="title_profile">Профиль</string>
+
+    <string name="exercise">Упражнение %1$s</string>
+    <string name="exercise_name">Название упражнения</string>
+    <string name="empty_list_title">Список пустой!</string>
+    <string name="empty_list_description">У вас пока нет ни одной записи.</string>
+    <string name="error">Ошибка!</string>
+    <string name="generic_error">Что-то пошло не так.</string>
+
+</resources>

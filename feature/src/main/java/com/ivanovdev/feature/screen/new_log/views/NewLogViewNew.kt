@@ -14,8 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.ivanovdev.feature.R
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
 import com.ivanovdev.feature.screen.new_log.logic.models.UiExercise
@@ -182,7 +185,7 @@ fun ExerciseInfo(
             .fillMaxWidth()
             .padding(bottom = M)) {
             Text(
-                text = "Exercise ${index + 1}",
+                text = stringResource(id = R.string.exercise, index + 1),
                 color = Color.White
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -202,14 +205,14 @@ fun ExerciseInfo(
                 .fillMaxWidth()
                 .padding(bottom = M),
             textStyle = TextStyle(color = Color.White),
-            label = { Text(text = "Exercise Name") }
+            label = { Text(text = stringResource(id = R.string.exercise_name)) }
         )
         Row(
             modifier = Modifier.padding(bottom = M),
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
-                value = exercise.weight?.toString() ?: "",
+                value = exercise.weight ?: "",
                 onValueChange = { onWeightChanged(it, exercise.id) },
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
@@ -222,7 +225,7 @@ fun ExerciseInfo(
         }
         Row() {
             OutlinedTextField(
-                value = exercise.iteration?.toString() ?: "",
+                value = exercise.iteration ?: "",
                 onValueChange = { onIterationChanged(it, exercise.id) },
                 modifier = Modifier
                     .weight(1 / 2f)
@@ -231,7 +234,7 @@ fun ExerciseInfo(
                 label = { Text(text = "Iteration") }
             )
             OutlinedTextField(
-                value = exercise.quantitySet?.toString() ?: "",
+                value = exercise.quantitySet ?: "",
                 onValueChange = { onSetsChanged(it, exercise.id) },
                 modifier = Modifier.weight(1 / 2f),
                 textStyle = TextStyle(color = Color.White),

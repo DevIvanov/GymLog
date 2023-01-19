@@ -1,8 +1,7 @@
 package com.ivanovdev.feature.screen.logger.views
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -13,56 +12,53 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import com.ivanovdev.feature.R
 import com.ivanovdev.feature.screen.logger.logic.models.LoggerUiState
-import com.ivanovdev.feature.ui.common.ItemLog
-import com.ivanovdev.feature.ui.theme.L
-import com.ivanovdev.feature.ui.theme.PrimaryDark
 import com.ivanovdev.feature.ui.theme.S
+import com.ivanovdev.feature.ui.theme.TextM
 import com.ivanovdev.feature.ui.theme.TextXL
+import com.ivanovdev.feature.ui.theme.XL
 
 @Composable
-fun LoggerViewSuccess(
-    uiState: LoggerUiState.Success,
-    toEmptyState: () -> Unit = {},
+fun LoggerViewEmpty(
+    uiState: LoggerUiState.Empty,
     newWorkoutClick: () -> Unit = {},
+    toSuccessState: () -> Unit = {}
 ) {
     val data = uiState.data.observeAsState()
 
-    if (data.value.isNullOrEmpty()) {
-        toEmptyState()
+    if (data.value.isNullOrEmpty().not()) {
+        toSuccessState()
     }
 
     Column(
-        modifier = Modifier
-            .background(PrimaryDark)
-            .wrapContentSize(Alignment.Center)
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "Logger",
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = TextXL
-        )
-        LazyColumn(
+        Image(
+            painter = painterResource(id = R.drawable.img_empty_list),
+            contentDescription = "Empty List",
             modifier = Modifier
-                .padding(top = L)
-                .fillMaxWidth()
-                .weight(1f)
-                .height(0.dp)
-        ) {
-            uiState.data.value?.forEach { log ->
-                item {
-                    ItemLog(log.type, "13.01.2023", "${log.weightSum} kg")
-                }
-            }
-        }
+                .padding(bottom = XL)
+                .fillMaxWidth(0.5f)
+        )
+        Text(
+            text = stringResource(id = R.string.empty_list_title),
+            color = Color.White,
+            fontSize = TextXL,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = stringResource(id = R.string.empty_list_description),
+            color = Color.White,
+            fontSize = TextM,
+            fontWeight = FontWeight.Light
+        )
     }
-
     Box(
         modifier = Modifier
             .fillMaxWidth()

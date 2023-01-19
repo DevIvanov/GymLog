@@ -9,6 +9,6 @@ class LoggerInteractorImpl @Inject constructor(
     private val repository: DBRepository
 ) : LoggerInteractor {
 
-    override suspend fun readData(): Flow<List<Workout>> = repository.readAll()
+    override fun readData(): Flow<List<Workout>> = repository.readAll()
 
 }

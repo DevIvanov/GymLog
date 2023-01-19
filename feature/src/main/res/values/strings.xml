@@ -5,4 +5,12 @@
     <string name="title_home">Home</string>
     <string name="title_logger">Logger</string>
     <string name="title_profile">Profile</string>
+
+    <string name="exercise">Exercise %1$s</string>
+    <string name="exercise_name">Exercise name</string>
+    <string name="empty_list_title">Empty list!</string>
+    <string name="empty_list_description">You have no any notes yet.</string>
+    <string name="error">Error!</string>
+    <string name="generic_error">Something went wrong.</string>
+
 </resources>
