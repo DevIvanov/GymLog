@@ -22,13 +22,12 @@ fun LoggerViewLoading(
 ) {
     val data = uiState.data.observeAsState()
 
-    if (data.value.isNullOrEmpty().not()) {
+    val currentData = data.value
+
+    if (currentData != null && currentData.isEmpty()) {
+        toEmptyState()
+    } else if (currentData != null && currentData.isNotEmpty()) {
         toSuccessState()
-    } else {
-        LaunchedEffect(true){
-            delay(1000L)
-            toEmptyState()
-        }
     }
 
     Box(
