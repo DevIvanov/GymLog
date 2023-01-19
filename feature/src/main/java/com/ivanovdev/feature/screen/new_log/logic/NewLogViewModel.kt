@@ -2,10 +2,12 @@ package com.ivanovdev.feature.screen.new_log.logic
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivanovdev.feature.screen.new_log.models.NewLogEvent
-import com.ivanovdev.feature.screen.new_log.models.NewLogUiState
+import com.ivanovdev.feature.screen.new_log.logic.interactor.NewLogInteractor
+import com.ivanovdev.feature.screen.new_log.logic.models.UiExercise
+import com.ivanovdev.feature.screen.new_log.logic.models.NewLogEvent
+import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
+import com.ivanovdev.feature.screen.new_log.logic.models.UiWorkout
 import com.ivanovdev.library.data.base.EventHandler
-import com.ivanovdev.library.domainmodel.model.Exercise
 import com.ivanovdev.library.domainmodel.model.Workout
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +25,7 @@ class NewLogViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<NewLogUiState> = MutableStateFlow(NewLogUiState.New())
     val uiState: StateFlow<NewLogUiState> get() = _uiState
 
-    private val _exercises: MutableStateFlow<MutableList<Exercise>> = MutableStateFlow(mutableListOf())
+    private val _exercises: MutableStateFlow<MutableList<UiExercise>> = MutableStateFlow(mutableListOf())
 
     override fun obtainEvent(event: NewLogEvent) {
         when (val currentViewState = _uiState.value) {
@@ -48,7 +50,7 @@ class NewLogViewModel @Inject constructor(
                     0
                 }
                 Timber.d("id = $id")
-                _exercises.value.add(Exercise(id = id))
+                _exercises.value.add(UiExercise(id = id))
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     exercises = _exercises.value,
@@ -72,10 +74,7 @@ class NewLogViewModel @Inject constructor(
                 )
             }
             is NewLogEvent.WeightChanged -> {
-                try {
-                    _exercises.value.find { it.id == event.id }?.weight =
-                        event.newValue.toDouble()
-                } catch (e: NumberFormatException) { Timber.e(e.message) }
+                _exercises.value.find { it.id == event.id }?.weight = event.newValue
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     exercises = _exercises.value,
@@ -83,10 +82,7 @@ class NewLogViewModel @Inject constructor(
                 )
             }
             is NewLogEvent.IterationChanged -> {
-                try {
-                    _exercises.value.find { it.id == event.id }?.iteration =
-                        event.newValue.toInt()
-                } catch (e: NumberFormatException) { Timber.e(e.message) }
+                _exercises.value.find { it.id == event.id }?.iteration = event.newValue
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     exercises = _exercises.value,
@@ -94,10 +90,7 @@ class NewLogViewModel @Inject constructor(
                 )
             }
             is NewLogEvent.SetsChanged -> {
-                try {
-                    _exercises.value.find { it.id == event.id }?.quantitySet =
-                        event.newValue.toInt()
-                } catch (e: NumberFormatException) { Timber.e(e.message) }
+                _exercises.value.find { it.id == event.id }?.quantitySet = event.newValue
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     exercises = _exercises.value,
@@ -122,12 +115,11 @@ class NewLogViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 interactor.insertData(
-                    Workout(
-                        id = 0,
-                        date = System.currentTimeMillis(),
-                        type = state.name ?: "",
+                    UiWorkout(
+                        date = state.date,
+                        type = state.name,
                         weightSum = 2300.0,
-                        exercises = emptyList()
+                        exercises = state.exercises
                     )
                 )
                 _uiState.value = NewLogUiState.Success

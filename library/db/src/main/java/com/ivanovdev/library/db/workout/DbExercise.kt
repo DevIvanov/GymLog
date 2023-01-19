@@ -1,6 +1,6 @@
-package com.ivanovdev.library.domainmodel.model
+package com.ivanovdev.library.db.workout
 
-data class Exercise(
+data class DbExercise(
     val id: Int,
     val name: String?,
     val weight: Double?,

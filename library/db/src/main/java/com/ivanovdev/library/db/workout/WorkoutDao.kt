@@ -7,17 +7,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WorkoutDao {
     @Query(READ_QUERY)
-    fun readAllData(): Flow<List<WorkoutEntity>>
+    fun readAllData(): Flow<List<DbWorkout>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: WorkoutEntity)
+    fun insert(item: DbWorkout)
 
     @Update
-    fun update(item: WorkoutEntity)
+    fun update(item: DbWorkout)
 
     @Delete
-    fun delete(item: WorkoutEntity)
+    fun delete(item: DbWorkout)
 
-    @Update(entity = WorkoutEntity::class)
-    fun updateValues(list: List<WorkoutEntity>)
+    @Update(entity = DbWorkout::class)
+    fun updateValues(list: List<DbWorkout>)
 }

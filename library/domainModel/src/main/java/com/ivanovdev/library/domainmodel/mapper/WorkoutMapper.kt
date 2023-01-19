@@ -1,9 +1,9 @@
 package com.ivanovdev.library.domainmodel.mapper
 
-import com.ivanovdev.library.db.workout.WorkoutEntity
+import com.ivanovdev.library.db.workout.DbWorkout
 import com.ivanovdev.library.domainmodel.model.Workout
 
 interface WorkoutMapper {
-    fun fromDomainToDb(domain: Workout) : WorkoutEntity
-    fun fromDbToDomain(db: WorkoutEntity) : Workout
+    fun fromDomainToDb(domain: Workout) : DbWorkout
+    fun fromDbToDomain(db: DbWorkout) : Workout
 }

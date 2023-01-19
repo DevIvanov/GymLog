@@ -1,6 +1,5 @@
-package com.ivanovdev.feature.screen.new_log.models
+package com.ivanovdev.feature.screen.new_log.logic.models
 
-import com.ivanovdev.library.domainmodel.model.Exercise
 import java.time.LocalDate
 
 sealed class NewLogUiState {
@@ -8,7 +7,7 @@ sealed class NewLogUiState {
     data class New(
         val name: String? = null,
         val date: LocalDate? = null,
-        val exercises: List<Exercise>? = null,
+        val exercises: List<UiExercise> = listOf(),
         val notifyToUpdate: Boolean = true
     ) : NewLogUiState()
 

@@ -9,8 +9,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ivanovdev.feature.screen.new_log.logic.NewLogViewModel
-import com.ivanovdev.feature.screen.new_log.models.NewLogEvent
-import com.ivanovdev.feature.screen.new_log.models.NewLogUiState
+import com.ivanovdev.feature.screen.new_log.logic.models.NewLogEvent
+import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewError
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewNew
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewSuccess

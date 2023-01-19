@@ -14,16 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import com.ivanovdev.feature.R
-import com.ivanovdev.feature.screen.new_log.models.NewLogUiState
+import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
+import com.ivanovdev.feature.screen.new_log.logic.models.UiExercise
 import com.ivanovdev.feature.ui.theme.L
 import com.ivanovdev.feature.ui.theme.M
 import com.ivanovdev.feature.ui.theme.XXL
 import com.ivanovdev.library.common.ext.toStringDate
-import com.ivanovdev.library.domainmodel.model.Exercise
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
@@ -104,7 +103,7 @@ fun NewLogViewNew(
             )
         }
 
-        state.exercises?.forEachIndexed { index, exercise ->
+        state.exercises.forEachIndexed { index, exercise ->
             item {
                 ExerciseInfo(
                     exercise = exercise,
@@ -165,7 +164,7 @@ fun NewLogViewNew(
 
 @Composable
 fun ExerciseInfo(
-    exercise: Exercise,
+    exercise: UiExercise,
     onDeleteClick: (Int) -> Unit,
     onNameChanged: (String, Int) -> Unit,
     onWeightChanged: (String, Int) -> Unit,

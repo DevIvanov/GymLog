@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ivanovdev.library.common.C.Db.GYM_DATABASE
 import com.ivanovdev.library.db.workout.WorkoutDao
-import com.ivanovdev.library.db.workout.WorkoutEntity
+import com.ivanovdev.library.db.workout.DbWorkout
 
-@Database(entities = [WorkoutEntity::class], version = 1, exportSchema = false)
+@Database(entities = [DbWorkout::class], version = 1, exportSchema = false)
 abstract class GymDatabase: RoomDatabase() {
 
     abstract fun workoutDao(): WorkoutDao
