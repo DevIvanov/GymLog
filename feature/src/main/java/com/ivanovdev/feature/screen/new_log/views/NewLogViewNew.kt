@@ -48,99 +48,95 @@ fun NewLogViewNew(
         }
     )
 
-    Column(
+    LazyColumn(
         modifier = Modifier.padding(all = L),
-//            .verticalScroll(state = rememberScrollState()),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = "Common Info",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = M),
-            color = Color.White
-        )
+        item {
+            Text(
+                text = "Common Info",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = M),
+                color = Color.White
+            )
 
-        val trailingIconView = @Composable {
-            IconButton(
-                onClick = {
-                    calendarState.show()
-                },
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_calendar),
-                    contentDescription = "Calendar",
-                    tint = Color.White
+            val trailingIconView = @Composable {
+                IconButton(
+                    onClick = {
+                        calendarState.show()
+                    },
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_calendar),
+                        contentDescription = "Calendar",
+                        tint = Color.White
+                    )
+                }
+            }
+
+            OutlinedTextField(
+                value = state.date.toStringDate(),
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = M)
+                    .focusable(false, MutableInteractionSource())
+                    .clickable { },
+                textStyle = TextStyle(color = Color.White),
+                trailingIcon = trailingIconView
+            )
+
+            OutlinedTextField(
+                value = state.name ?: "",
+                onValueChange = onTypeChanged,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = M),
+                textStyle = TextStyle(color = Color.White),
+                label = { Text(text = "Workout's type") }
+            )
+        }
+
+        state.exercises?.forEachIndexed() { index, exercise ->
+            item {
+                ExerciseInfo(
+                    exercise = exercise,
+                    onDeleteClick = onDeleteClick,
+                    onNameChanged = onNameChanged,
+                    index = index
                 )
             }
         }
 
-        OutlinedTextField(
-            value = state.date.toStringDate(),
-            onValueChange = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = M)
-                .focusable(false, MutableInteractionSource())
-                .clickable { },
-            textStyle = TextStyle(color = Color.White),
-            trailingIcon = trailingIconView
-        )
-
-        OutlinedTextField(
-            value = state.name ?: "",
-            onValueChange = onTypeChanged,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = M),
-            textStyle = TextStyle(color = Color.White),
-            label = { Text(text = "Workout's type") }
-        )
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = M),
-//                .verticalScroll(ScrollState(0), false)
-        ) {
-            state.exercises?.forEachIndexed() { index, exercise ->
-                item {
-                    ExerciseInfo(
-                        exercise = exercise,
-                        onDeleteClick = onDeleteClick,
-                        onNameChanged = onNameChanged,
-                        index = index
-                    )
-                }
+        item {
+            Button(
+                onClick = { onAddClick() },
+                modifier = Modifier.padding(top = L)
+            ) {
+                Icon(
+                    Icons.Default.Add,
+                    modifier = Modifier.padding(end = L),
+                    contentDescription = "Add",
+                    tint = Color.White
+                )
+                Text(
+                    text = "Add New Exercise".uppercase(),
+                    color = Color.White
+                )
             }
-        }
-
-        Button(
-            onClick = { onAddClick() },
-            modifier = Modifier.padding(top = L)
-        ) {
-            Icon(
-                Icons.Default.Add,
-                modifier = Modifier.padding(end = L),
-                contentDescription = "Add",
-                tint = Color.White
-            )
-            Text(
-                text = "Add New Exercise".uppercase(),
-                color = Color.White
-            )
-        }
-        Button(
-            onClick = { onSaveClicked() },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = XXL)
-        ) {
-            Text(
-                text = "Submit".uppercase(),
-                color = Color.White
-            )
+            Button(
+                onClick = { onSaveClicked() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = XXL)
+            ) {
+                Text(
+                    text = "Submit".uppercase(),
+                    color = Color.White
+                )
+            }
         }
     }
 }
@@ -163,7 +159,8 @@ fun ExerciseInfo(
     exercise: Exercise,
     onDeleteClick: (Int) -> Unit,
     onNameChanged: (String, Int) -> Unit,
-    index: Int) {
+    index: Int
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
