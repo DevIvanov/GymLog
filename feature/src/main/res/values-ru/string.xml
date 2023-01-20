@@ -13,5 +13,12 @@
     <string name="empty_list_description">У вас пока нет ни одной записи.</string>
     <string name="error">Ошибка!</string>
     <string name="generic_error">Что-то пошло не так.</string>
+    <string name="save">Сохранить</string>
+    <string name="add_exercise">Добавить упражнение</string>
+    <string name="workout_type">Тип тренировки</string>
+    <string name="weight">Вес</string>
+    <string name="own_weight">Собственный вес</string>
+    <string name="reps">Повторения</string>
+    <string name="approaches">Подходы</string>
 
 </resources>

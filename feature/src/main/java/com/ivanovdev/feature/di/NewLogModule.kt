@@ -2,6 +2,8 @@ package com.ivanovdev.feature.di
 
 import com.ivanovdev.feature.screen.new_log.logic.interactor.NewLogInteractor
 import com.ivanovdev.feature.screen.new_log.logic.interactor.NewLogInteractorImpl
+import com.ivanovdev.feature.screen.new_log.logic.mapper.CommonMapper
+import com.ivanovdev.feature.screen.new_log.logic.mapper.CommonMapperImpl
 import com.ivanovdev.feature.screen.new_log.logic.mapper.NewLogMapper
 import com.ivanovdev.feature.screen.new_log.logic.mapper.NewLogMapperImpl
 import com.ivanovdev.library.data.repository.DBRepository
@@ -16,6 +18,9 @@ object NewLogModule {
 
     @Provides
     fun getNewLogMapper(): NewLogMapper = NewLogMapperImpl()
+
+    @Provides
+    fun getCommonMapper() : CommonMapper = CommonMapperImpl()
 
     @Provides
     fun getNewLogInteractor(repository: DBRepository, mapper: NewLogMapper): NewLogInteractor =

@@ -16,6 +16,7 @@ import com.ivanovdev.feature.screen.new_log.views.NewLogViewNew
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewSuccess
 import com.ivanovdev.feature.ui.common.TopBarSecondary
 import com.ivanovdev.feature.ui.theme.PrimaryDark
+import timber.log.Timber
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -25,6 +26,8 @@ fun NewLogScreen(
 ) {
     val uiState: NewLogUiState = viewModel.uiState.collectAsState().value
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    Timber.e("uiState = $uiState")
 
     Scaffold(
         topBar = { TopBarSecondary(onBackClick = { navController.popBackStack() }, title = "New Workout") },
@@ -57,6 +60,7 @@ fun NewLogScreen(
                     keyboardController?.hide()
                     viewModel.obtainEvent(NewLogEvent.SaveClicked)
                 },
+                addApproach = { viewModel.obtainEvent(NewLogEvent.AddApproach(it)) }
             )
             is NewLogUiState.Edit -> NewLogViewError(
                 onCloseClick = { navController.popBackStack() }

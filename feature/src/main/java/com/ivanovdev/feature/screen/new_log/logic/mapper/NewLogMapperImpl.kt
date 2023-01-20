@@ -1,7 +1,9 @@
 package com.ivanovdev.feature.screen.new_log.logic.mapper
 
+import com.ivanovdev.feature.screen.new_log.logic.models.UiApproach
 import com.ivanovdev.feature.screen.new_log.logic.models.UiExercise
 import com.ivanovdev.feature.screen.new_log.logic.models.UiWorkout
+import com.ivanovdev.library.domainmodel.model.Approach
 import com.ivanovdev.library.domainmodel.model.Exercise
 import com.ivanovdev.library.domainmodel.model.Workout
 
@@ -13,6 +15,8 @@ class NewLogMapperImpl : NewLogMapper {
             id,
             date!!,
             type!!,
+            comment!!,
+            duration!!,
             weightSum,
             exercises.map(::fromUiToDomainExercise)
         )
@@ -22,10 +26,18 @@ class NewLogMapperImpl : NewLogMapper {
         Exercise(
             id,
             name,
-            weight?.toDouble(),
+            duration?.toLong(),
             isOwnWeight,
-            quantitySet?.toInt(),
-            iteration?.toInt()
+            approaches?.map(::fromUiToDomainApproach)
+        )
+    }
+
+    private fun fromUiToDomainApproach(ui: UiApproach): Approach = with(ui) {
+        Approach(
+            id,
+            weight?.toDouble(),
+            approaches?.toInt(),
+            reps?.toInt()
         )
     }
 

@@ -42,7 +42,7 @@ fun NewLogViewSuccess(
 
                 Text(
                     modifier = Modifier.padding(top = 24.dp),
-                    text = "added successfully",
+                    text = "Added successfully",
                     color = GreyLightText
                 )
 
@@ -60,7 +60,7 @@ fun NewLogViewSuccess(
                     )
                 ) {
                     Text(
-                        text = "close",
+                        text = "Close",
                         color = PrimaryDark
                     )
                 }

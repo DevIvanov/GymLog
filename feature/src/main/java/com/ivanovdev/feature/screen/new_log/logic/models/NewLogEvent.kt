@@ -12,6 +12,7 @@ sealed class NewLogEvent {
     data class IsOwnWeight(val newValue: Boolean, val id: Int) : NewLogEvent()
     data class DeleteExercise(val index: Int) : NewLogEvent()
     object AddExercise : NewLogEvent()
+    data class AddApproach(val exerciseId: Int) : NewLogEvent()
     object SaveClicked : NewLogEvent()
 
 }
