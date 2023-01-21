@@ -5,6 +5,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -17,6 +18,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import com.ivanovdev.feature.R
 import com.ivanovdev.feature.screen.new_log.logic.models.CommonType
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
@@ -85,13 +88,12 @@ fun NewLogViewNew(
             OutlinedTextField(
                 value = state.date.toStringDate(),
                 onValueChange = {},
+                readOnly = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = M)
-                    .focusable(false, MutableInteractionSource())
-                    .clickable { },
+                    .padding(top = M),
                 textStyle = TextStyle(color = Color.White),
-                trailingIcon = trailingIconView
+                trailingIcon = trailingIconView,
             )
 
             OutlinedTextField(
@@ -101,16 +103,21 @@ fun NewLogViewNew(
                     .fillMaxWidth()
                     .padding(vertical = M),
                 textStyle = TextStyle(color = Color.White),
-                label = { Text(text = stringResource(id = R.string.workout_type)) }
+                label = { Text(text = stringResource(id = R.string.workout_type)) },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Text
+                )
             )
         }
 
-        state.commonList.forEachIndexed { index, common ->
+        state.commonList.forEach { common ->
             when (common) {
                 is CommonType.Exercise -> {
                     item {
                         ExerciseInfoItem(
                             exerciseId = common.exerciseId,
+                            exerciseIndex = common.exerciseIndex,
                             isApproachEmpty = common.isApproachEmpty,
                             duration = common.duration,
                             name = common.name,
@@ -119,7 +126,6 @@ fun NewLogViewNew(
                             onNameChanged = onNameChanged,
                             isOwnWeight = isOwnWeight,
                             addApproach = addApproach,
-                            exerciseIndex = index,
                         )
                     }
                 }
@@ -181,6 +187,7 @@ fun NewLogViewNew(
 fun ExerciseInfoItem(
     isApproachEmpty: Boolean,
     exerciseId: Int,
+    exerciseIndex: Int,
     duration: String?,
     name: String?,
     ownWeight: Boolean,
@@ -188,7 +195,6 @@ fun ExerciseInfoItem(
     onNameChanged: (String, Int) -> Unit,
     isOwnWeight: (Boolean, Int) -> Unit,
     addApproach: (Int) -> Unit,
-    exerciseIndex: Int
 ) {
 
     Column(
@@ -221,7 +227,12 @@ fun ExerciseInfoItem(
                 .fillMaxWidth()
                 .padding(bottom = M),
             textStyle = TextStyle(color = Color.White),
-            label = { Text(text = stringResource(id = R.string.exercise_name)) }
+            label = { Text(text = stringResource(id = R.string.exercise_name)) },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Text
+            )
+
         )
         Row(
             modifier = Modifier
@@ -273,7 +284,11 @@ fun ApproachItem(
                     .fillMaxWidth(0.5f)
                     .padding(end = M),
                 textStyle = TextStyle(color = Color.White),
-                label = { Text(text = stringResource(id = R.string.weight)) }
+                label = { Text(text = stringResource(id = R.string.weight)) },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Decimal
+                )
             )
         }
         Row() {
@@ -284,14 +299,22 @@ fun ApproachItem(
                     .weight(1 / 2f)
                     .padding(end = M),
                 textStyle = TextStyle(color = Color.White),
-                label = { Text(text = stringResource(id = R.string.reps)) }
+                label = { Text(text = stringResource(id = R.string.reps)) },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Number
+                )
             )
             OutlinedTextField(
                 value = approaches ?: "",
                 onValueChange = { onSetsChanged(it, approachId) },
                 modifier = Modifier.weight(1 / 2f),
                 textStyle = TextStyle(color = Color.White),
-                label = { Text(text = stringResource(id = R.string.approaches)) }
+                label = { Text(text = stringResource(id = R.string.approaches)) },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Number
+                )
             )
         }
         if (isAddButtonVisible) {

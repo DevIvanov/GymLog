@@ -4,6 +4,7 @@ sealed class CommonType {
 
     data class Exercise(
         val exerciseId: Int,
+        var exerciseIndex: Int,
         var isApproachEmpty: Boolean = true,
         var name: String? = null,
         var duration: String? = null,

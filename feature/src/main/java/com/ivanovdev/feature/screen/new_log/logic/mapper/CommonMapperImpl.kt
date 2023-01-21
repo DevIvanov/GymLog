@@ -9,19 +9,20 @@ class CommonMapperImpl: CommonMapper {
     override fun fromUiToCommon(uiExercises: List<UiExercise>): List<CommonType> {
         val list = mutableListOf<CommonType>()
 
-        uiExercises.forEach {
+        uiExercises.forEachIndexed { index, exercise ->
             list.add(CommonType.Exercise(
-                it.id,
-                it.approaches.isEmpty(),
-                it.name,
-                it.duration,
-                it.isOwnWeight
+                exercise.id,
+                index,
+                exercise.approaches.isEmpty(),
+                exercise.name,
+                exercise.duration,
+                exercise.isOwnWeight
             ))
-            it.approaches.forEachIndexed { index, approach ->
+            exercise.approaches.forEachIndexed { index2, approach ->
                 list.add(CommonType.Approach(
-                    it.id,
+                    exercise.id,
                     approach.id,
-                    it.approaches.size - 1 == index,
+                    exercise.approaches.size - 1 == index2,
                     approach.weight,
                     approach.reps,
                     approach.approaches
