@@ -32,7 +32,7 @@ class CommonMapperImpl: CommonMapper {
 
         list.add(CommonType.AddButton)
 
-        Timber.e("list = $list")
+//        Timber.e("list = $list")
         return list
     }
 

@@ -23,14 +23,13 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
         )
     }
 
-    //TODO handle !!
     override fun fromDbToDomain(db: DbWorkout): Workout = with(db) {
         Workout(
             id,
             date,
             type,
-            comment!!,
-            duration!!,
+            comment,
+            duration,
             weightSum,
             exercises.map(::fromDbToDomainExercise)
         )
@@ -42,7 +41,7 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
             name,
             duration,
             isOwnWeight,
-            approaches!!.map(::fromDomainToDbApproach)
+            approaches?.map(::fromDomainToDbApproach)
         )
     }
 
@@ -52,7 +51,7 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
             name,
             duration,
             isOwnWeight,
-            approaches.map(::fromDbToDomainApproach),
+            approaches?.map(::fromDbToDomainApproach),
         )
     }
 

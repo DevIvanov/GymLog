@@ -53,7 +53,6 @@ class NewLogViewModel @Inject constructor(
                     Timber.e(e.message)
                     0
                 }
-                Timber.d("id = $id")
                 _exercises.value.add(UiExercise(id = id))
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
@@ -62,15 +61,13 @@ class NewLogViewModel @Inject constructor(
                 )
             }
             is NewLogEvent.AddApproach -> {
-                Timber.e("NewLogEvent.AddApproach")
                 val id = try {
                     _exercises.value[event.exerciseId].approaches.maxBy { it.id }.id + 1
                 } catch (e: Exception) {
                     Timber.e(e.message)
                     0
                 }
-                Timber.d("id = $id")
-                _exercises.value.get(event.exerciseId).approaches.add(UiApproach(id = id))
+                _exercises.value[event.exerciseId].approaches.add(UiApproach(id = id))
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     commonList = mapper.fromUiToCommon(_exercises.value),
@@ -93,34 +90,35 @@ class NewLogViewModel @Inject constructor(
                     notifyToUpdate = !update
                 )
             }
-            is NewLogEvent.WeightChanged -> {
-//                val approaches = _exercises.value.find { it.id == event.id }?.approaches
-//                val approach = approaches?.find { it.id == event.id }?.weight
-//                = event.newValue
-//                val update = currentState.notifyToUpdate
-//                _uiState.value = currentState.copy(
-//                    exercises = _exercises.value,
-//                    notifyToUpdate = !update
-//                )
-            }
-            is NewLogEvent.IterationChanged -> {
-//                _exercises.value.find { it.id == event.id }?.reps = event.newValue
-//                val update = currentState.notifyToUpdate
-//                _uiState.value = currentState.copy(
-//                    exercises = _exercises.value,
-//                    notifyToUpdate = !update
-//                )
-            }
-            is NewLogEvent.SetsChanged -> {
-//                _exercises.value.find { it.id == event.id }?.approaches = event.newValue
-//                val update = currentState.notifyToUpdate
-//                _uiState.value = currentState.copy(
-//                    exercises = _exercises.value,
-//                    notifyToUpdate = !update
-//                )
-            }
             is NewLogEvent.IsOwnWeight -> {
                 _exercises.value.find { it.id == event.id }?.isOwnWeight = event.newValue
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    commonList = mapper.fromUiToCommon(_exercises.value),
+                    notifyToUpdate = !update
+                )
+            }
+            is NewLogEvent.WeightChanged -> {
+                _exercises.value.find { it.id == event.exerciseId }?.approaches
+                    ?.find { it.id == event.approachId }?.weight = event.newValue
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    commonList = mapper.fromUiToCommon(_exercises.value),
+                    notifyToUpdate = !update
+                )
+            }
+            is NewLogEvent.RepsChanged -> {
+                _exercises.value.find { it.id == event.exerciseId }?.approaches
+                    ?.find { it.id == event.approachId }?.reps = event.newValue
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    commonList = mapper.fromUiToCommon(_exercises.value),
+                    notifyToUpdate = !update
+                )
+            }
+            is NewLogEvent.ApproachesChanged -> {
+                _exercises.value.find { it.id == event.exerciseId }?.approaches
+                    ?.find { it.id == event.approachId }?.approaches = event.newValue
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     commonList = mapper.fromUiToCommon(_exercises.value),
@@ -135,6 +133,7 @@ class NewLogViewModel @Inject constructor(
 
     private fun saveWorkoutToDB(state: NewLogUiState.New) {
         viewModelScope.launch(Dispatchers.IO) {
+            Timber.e("_exercises.value = ${_exercises.value}")
             try {
                 interactor.insertData(
                     UiWorkout(
@@ -146,7 +145,9 @@ class NewLogViewModel @Inject constructor(
                 )
                 _uiState.value = NewLogUiState.Success
             } catch (e: Exception) {
-                _uiState.value = NewLogUiState.Error
+                e.printStackTrace()
+                Timber.e(e.message)
+                _uiState.value = NewLogUiState.Error(e.message)
             }
 
         }

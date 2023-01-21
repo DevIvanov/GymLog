@@ -6,6 +6,7 @@ import com.ivanovdev.feature.screen.new_log.logic.models.UiWorkout
 import com.ivanovdev.library.domainmodel.model.Approach
 import com.ivanovdev.library.domainmodel.model.Exercise
 import com.ivanovdev.library.domainmodel.model.Workout
+import java.time.LocalDate
 
 class NewLogMapperImpl : NewLogMapper {
 
@@ -13,10 +14,10 @@ class NewLogMapperImpl : NewLogMapper {
     override fun fromUiToDomain(ui: UiWorkout): Workout = with(ui) {
         Workout(
             id,
-            date!!,
-            type!!,
-            comment!!,
-            duration!!,
+            date ?: LocalDate.now(),
+            type ?: "",
+            comment,
+            duration,
             weightSum,
             exercises.map(::fromUiToDomainExercise)
         )
@@ -28,7 +29,7 @@ class NewLogMapperImpl : NewLogMapper {
             name,
             duration?.toLong(),
             isOwnWeight,
-            approaches?.map(::fromUiToDomainApproach)
+            approaches.map(::fromUiToDomainApproach)
         )
     }
 

@@ -4,6 +4,7 @@ import com.ivanovdev.feature.screen.new_log.logic.mapper.NewLogMapper
 import com.ivanovdev.feature.screen.new_log.logic.models.UiWorkout
 import com.ivanovdev.library.data.repository.DBRepository
 import com.ivanovdev.library.domainmodel.model.Workout
+import timber.log.Timber
 import javax.inject.Inject
 
 class NewLogInteractorImpl @Inject constructor(
@@ -12,7 +13,13 @@ class NewLogInteractorImpl @Inject constructor(
 ) : NewLogInteractor {
 
     override suspend fun insertData(item: UiWorkout) {
-        repository.insert(mapper.fromUiToDomain(item))
+        Timber.e("mapper.fromUiToDomain(item) = ${mapper.fromUiToDomain(item)}")
+        try {
+            repository.insert(mapper.fromUiToDomain(item))
+        } catch (e: Exception) {
+            Timber.e(e.message)
+        }
+
     }
 
 }

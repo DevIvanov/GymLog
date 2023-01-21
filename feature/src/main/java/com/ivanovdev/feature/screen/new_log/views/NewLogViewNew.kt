@@ -1,8 +1,6 @@
 package com.ivanovdev.feature.screen.new_log.views
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,9 +38,9 @@ fun NewLogViewNew(
     onTypeChanged: (String) -> Unit,
     onDeleteClick: (Int) -> Unit,
     onNameChanged: (String, Int) -> Unit,
-    onWeightChanged: (String, Int) -> Unit,
-    onIterationChanged: (String, Int) -> Unit,
-    onSetsChanged: (String, Int) -> Unit,
+    onWeightChanged: (String, Int, Int) -> Unit,
+    onRepsChanged: (String, Int, Int) -> Unit,
+    onApproachesChanged: (String, Int, Int) -> Unit,
     isOwnWeight: (Boolean, Int) -> Unit,
     onAddClick: () -> Unit,
     onSaveClicked: () -> Unit,
@@ -139,8 +137,8 @@ fun NewLogViewNew(
                             reps = common.reps,
                             approaches = common.approaches,
                             onWeightChanged = onWeightChanged,
-                            onIterationChanged = onIterationChanged,
-                            onSetsChanged = onSetsChanged,
+                            onIterationChanged = onRepsChanged,
+                            onSetsChanged = onApproachesChanged,
                             addApproach = addApproach
                         )
                     }
@@ -262,9 +260,9 @@ fun ApproachItem(
     weight: String?,
     reps: String?,
     approaches: String?,
-    onWeightChanged: (String, Int) -> Unit,
-    onIterationChanged: (String, Int) -> Unit,
-    onSetsChanged: (String, Int) -> Unit,
+    onWeightChanged: (String, Int, Int) -> Unit,
+    onIterationChanged: (String, Int, Int) -> Unit,
+    onSetsChanged: (String, Int, Int) -> Unit,
     addApproach: (Int) -> Unit
 ) {
     Column(
@@ -279,7 +277,7 @@ fun ApproachItem(
         ) {
             OutlinedTextField(
                 value = weight ?: "",
-                onValueChange = { onWeightChanged(it, approachId) },
+                onValueChange = { onWeightChanged(it, exerciseId, approachId) },
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
                     .padding(end = M),
@@ -294,7 +292,7 @@ fun ApproachItem(
         Row() {
             OutlinedTextField(
                 value = reps ?: "",
-                onValueChange = { onIterationChanged(it, approachId) },
+                onValueChange = { onIterationChanged(it, exerciseId, approachId) },
                 modifier = Modifier
                     .weight(1 / 2f)
                     .padding(end = M),
@@ -307,7 +305,7 @@ fun ApproachItem(
             )
             OutlinedTextField(
                 value = approaches ?: "",
-                onValueChange = { onSetsChanged(it, approachId) },
+                onValueChange = { onSetsChanged(it, exerciseId, approachId) },
                 modifier = Modifier.weight(1 / 2f),
                 textStyle = TextStyle(color = Color.White),
                 label = { Text(text = stringResource(id = R.string.approaches)) },

@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import com.ivanovdev.feature.screen.new_log.logic.NewLogViewModel
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogEvent
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
+import com.ivanovdev.feature.screen.new_log.views.NewLogViewEdit
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewError
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewNew
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewSuccess
@@ -43,17 +44,17 @@ fun NewLogScreen(
                 onNameChanged = { value, int ->
                     viewModel.obtainEvent(NewLogEvent.NameChanged(value, int))
                 },
-                onWeightChanged = { value, id ->
-                    viewModel.obtainEvent(NewLogEvent.WeightChanged(value, id))
-                },
-                onIterationChanged = { value, id ->
-                    viewModel.obtainEvent(NewLogEvent.IterationChanged(value, id))
-                },
-                onSetsChanged = { value, id ->
-                    viewModel.obtainEvent(NewLogEvent.SetsChanged(value, id))
-                },
                 isOwnWeight = { value, id ->
                     viewModel.obtainEvent(NewLogEvent.IsOwnWeight(value, id))
+                },
+                onWeightChanged = { value, exerciseId, approachId ->
+                    viewModel.obtainEvent(NewLogEvent.WeightChanged(value, exerciseId, approachId))
+                },
+                onRepsChanged = { value, exerciseId, approachId ->
+                    viewModel.obtainEvent(NewLogEvent.RepsChanged(value, exerciseId, approachId))
+                },
+                onApproachesChanged = { value, exerciseId, approachId ->
+                    viewModel.obtainEvent(NewLogEvent.ApproachesChanged(value, exerciseId, approachId))
                 },
                 onAddClick = { viewModel.obtainEvent(NewLogEvent.AddExercise) },
                 onSaveClicked = {
@@ -62,13 +63,14 @@ fun NewLogScreen(
                 },
                 addApproach = { viewModel.obtainEvent(NewLogEvent.AddApproach(it)) }
             )
-            is NewLogUiState.Edit -> NewLogViewError(
-                onCloseClick = { navController.popBackStack() }
-            )
+            is NewLogUiState.Edit -> {}
+//                NewLogViewEdit(
+//                onCloseClick = { navController.popBackStack() }
+//            )
             is NewLogUiState.Success -> NewLogViewSuccess(
                 onCloseClick = { navController.popBackStack() }
             )
-            is NewLogUiState.Error -> {}
+            is NewLogUiState.Error -> NewLogViewError(uiState = uiState)
         }
     }
 

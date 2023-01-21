@@ -20,5 +20,5 @@ sealed interface NewLogUiState {
 
     object Success : NewLogUiState
 
-    object Error : NewLogUiState
+    data class Error(val errorMessage: String?) : NewLogUiState
 }
