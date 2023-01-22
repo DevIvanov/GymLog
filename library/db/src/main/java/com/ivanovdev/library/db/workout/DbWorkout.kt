@@ -19,6 +19,6 @@ data class DbWorkout (
     val type: String,
     val comment: String?,
     val duration: Long?,
-    val weightSum: Double?,
-    val exercises: List<DbExercise>
+    val exercises: List<DbExercise>,
+    val weightSum: Double
 )

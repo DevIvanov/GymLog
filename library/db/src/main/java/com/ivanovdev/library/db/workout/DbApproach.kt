@@ -5,4 +5,5 @@ data class DbApproach(
     val weight: Double?,
     val reps: Int?,
     val approaches: Int?,
+    val approachWeight: Double
 )

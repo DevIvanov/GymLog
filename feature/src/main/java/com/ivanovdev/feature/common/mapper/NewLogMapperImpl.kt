@@ -18,8 +18,7 @@ class NewLogMapperImpl : NewLogMapper {
             type ?: "",
             comment,
             duration,
-            weightSum,
-            exercises.map(::fromUiToDomainExercise)
+            exercises.map(::fromUiToDomainExercise),
         )
     }
 

@@ -8,6 +8,7 @@ data class Workout(
     val type: String,
     val comment: String?,
     val duration: Long?,
-    val weightSum: Double?,
     val exercises: List<Exercise>
-)
+) {
+    val weightSum: Double = exercises.sumOf { it.exerciseWeight }
+}

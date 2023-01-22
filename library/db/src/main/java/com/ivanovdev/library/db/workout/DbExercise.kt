@@ -6,4 +6,5 @@ data class DbExercise(
     val duration: Long?,
     val isOwnWeight: Boolean,
     val approaches: List<DbApproach>?,
+    val exerciseWeight: Double
 )

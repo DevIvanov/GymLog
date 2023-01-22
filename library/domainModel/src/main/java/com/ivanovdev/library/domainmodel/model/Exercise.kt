@@ -6,4 +6,6 @@ data class Exercise(
     val duration: Long?,
     val isOwnWeight: Boolean,
     val approaches: List<Approach>?
-)
+) {
+    val exerciseWeight: Double = approaches?.sumOf { it.approachWeight } ?: 0.0
+}

@@ -18,8 +18,8 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
             type,
             comment,
             duration,
-            weightSum,
-            exercises.map(::fromDomainToDbExercise)
+            exercises.map(::fromDomainToDbExercise),
+            weightSum
         )
     }
 
@@ -30,7 +30,6 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
             type,
             comment,
             duration,
-            weightSum,
             exercises.map(::fromDbToDomainExercise)
         )
     }
@@ -41,7 +40,8 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
             name,
             duration,
             isOwnWeight,
-            approaches?.map(::fromDomainToDbApproach)
+            approaches?.map(::fromDomainToDbApproach),
+            exerciseWeight
         )
     }
 
@@ -51,7 +51,7 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
             name,
             duration,
             isOwnWeight,
-            approaches?.map(::fromDbToDomainApproach),
+            approaches?.map(::fromDbToDomainApproach)
         )
     }
 
@@ -60,7 +60,8 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
             id,
             weight,
             reps,
-            approaches
+            approaches,
+            approachWeight
         )
     }
 
