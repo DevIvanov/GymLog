@@ -15,6 +15,7 @@ sealed class CommonType {
         val exerciseId: Int,
         val approachId: Int,
         var isAddButtonVisible: Boolean = false,
+        var isOwnWeight: Boolean = false,
         var weight: String? = null,
         var reps: String? = null,
         var approaches: String? = null,

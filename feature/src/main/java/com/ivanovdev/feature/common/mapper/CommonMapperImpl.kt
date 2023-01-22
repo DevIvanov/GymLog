@@ -24,6 +24,7 @@ class CommonMapperImpl: CommonMapper {
                     exercise.id,
                     approach.id,
                     exercise.approaches.size - 1 == index2,
+                    exercise.isOwnWeight,
                     approach.weight,
                     approach.reps,
                     approach.approaches
@@ -33,7 +34,6 @@ class CommonMapperImpl: CommonMapper {
 
         list.add(CommonType.AddButton)
 
-//        Timber.e("list = $list")
         return list
     }
 

@@ -19,18 +19,22 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import com.ivanovdev.feature.R
 import com.ivanovdev.feature.common.model.CommonType
+import com.ivanovdev.feature.common.util.WeightTransformation
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
 import com.ivanovdev.feature.ui.theme.L
 import com.ivanovdev.feature.ui.theme.M
 import com.ivanovdev.feature.ui.theme.XXL
+import com.ivanovdev.library.common.ext.checkDouble
 import com.ivanovdev.library.common.ext.toStringDate
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import com.maxkeppeler.sheets.calendar.models.CalendarStyle
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -142,6 +146,7 @@ fun NewLogViewNew(
                             exerciseId = common.exerciseId,
                             approachId = common.approachId,
                             isAddButtonVisible = common.isAddButtonVisible,
+                            isOwnWeight = common.isOwnWeight,
                             weight = common.weight,
                             reps = common.reps,
                             approaches = common.approaches,
@@ -242,9 +247,7 @@ fun ExerciseInfoItem(
 
         )
         Row(
-            modifier = Modifier
-                .padding(bottom = M)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
@@ -266,6 +269,7 @@ fun ApproachItem(
     exerciseId: Int,
     isAddButtonVisible: Boolean,
     approachId: Int,
+    isOwnWeight: Boolean,
     weight: String?,
     reps: String?,
     approaches: String?,
@@ -274,6 +278,11 @@ fun ApproachItem(
     onSetsChanged: (String, Int, Int) -> Unit,
     addApproach: (Int) -> Unit
 ) {
+    val doublePattern = remember { Regex("[0-9]{0," + 6 + "}+((\\.[0-9]{0," + 2 + "})?)||(\\.)?") }
+    val intPattern = remember { Regex("^\\d+\$") }
+    val doubleLength = 7
+    val intLength = 4
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -287,8 +296,15 @@ fun ApproachItem(
             horizontalArrangement = Arrangement.Start
         ) {
             OutlinedTextField(
-                value = weight ?: "",
-                onValueChange = { onWeightChanged(it, exerciseId, approachId) },
+                //TODO change 83
+                value = if (isOwnWeight) 83.toString() else weight ?: "",
+                onValueChange = { if (it.isEmpty() || it.matches(doublePattern)
+                    && it.length <= doubleLength && it.checkDouble()
+                ) {
+                    Timber.e("it = $it")
+                    onWeightChanged(it, exerciseId, approachId)
+                } },
+                readOnly = isOwnWeight,
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
                     .padding(end = M),
@@ -297,13 +313,16 @@ fun ApproachItem(
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Decimal
-                )
+                ),
+                visualTransformation = WeightTransformation(" kg")
             )
         }
         Row() {
             OutlinedTextField(
                 value = reps ?: "",
-                onValueChange = { onIterationChanged(it, exerciseId, approachId) },
+                onValueChange = { if (it.isEmpty() || it.matches(intPattern) && it.length <= intLength) {
+                    onIterationChanged(it, exerciseId, approachId)
+                } },
                 modifier = Modifier
                     .weight(1 / 2f)
                     .padding(end = M),
@@ -316,14 +335,16 @@ fun ApproachItem(
             )
             OutlinedTextField(
                 value = approaches ?: "",
-                onValueChange = { onSetsChanged(it, exerciseId, approachId) },
+                onValueChange = { if (it.isEmpty() || it.matches(intPattern) && it.length <= intLength) {
+                    onSetsChanged(it, exerciseId, approachId)
+                } },
                 modifier = Modifier.weight(1 / 2f),
                 textStyle = TextStyle(color = Color.White),
                 label = { Text(text = stringResource(id = R.string.approaches)) },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Number
-                )
+                    keyboardType = KeyboardType.Number,
+                ),
             )
         }
         if (isAddButtonVisible) {
