@@ -1,5 +1,6 @@
 package com.ivanovdev.feature.screen.new_log.logic.models
 
+import com.ivanovdev.feature.common.model.CommonType
 import java.time.LocalDate
 
 sealed interface NewLogUiState {

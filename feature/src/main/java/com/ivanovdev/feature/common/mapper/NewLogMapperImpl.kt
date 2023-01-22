@@ -1,8 +1,8 @@
-package com.ivanovdev.feature.screen.new_log.logic.mapper
+package com.ivanovdev.feature.common.mapper
 
-import com.ivanovdev.feature.screen.new_log.logic.models.UiApproach
-import com.ivanovdev.feature.screen.new_log.logic.models.UiExercise
-import com.ivanovdev.feature.screen.new_log.logic.models.UiWorkout
+import com.ivanovdev.feature.common.model.UiApproach
+import com.ivanovdev.feature.common.model.UiExercise
+import com.ivanovdev.feature.common.model.UiWorkout
 import com.ivanovdev.library.domainmodel.model.Approach
 import com.ivanovdev.library.domainmodel.model.Exercise
 import com.ivanovdev.library.domainmodel.model.Workout

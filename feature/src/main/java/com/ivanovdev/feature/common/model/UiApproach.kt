@@ -1,4 +1,4 @@
-package com.ivanovdev.feature.screen.new_log.logic.models
+package com.ivanovdev.feature.common.model
 
 data class UiApproach(
     val id: Int,

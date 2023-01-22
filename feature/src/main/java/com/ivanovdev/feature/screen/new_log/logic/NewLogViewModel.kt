@@ -2,8 +2,11 @@ package com.ivanovdev.feature.screen.new_log.logic
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivanovdev.feature.common.model.UiApproach
+import com.ivanovdev.feature.common.model.UiExercise
+import com.ivanovdev.feature.common.model.UiWorkout
 import com.ivanovdev.feature.screen.new_log.logic.interactor.NewLogInteractor
-import com.ivanovdev.feature.screen.new_log.logic.mapper.CommonMapper
+import com.ivanovdev.feature.common.mapper.CommonMapper
 import com.ivanovdev.feature.screen.new_log.logic.models.*
 import com.ivanovdev.library.data.base.EventHandler
 import dagger.hilt.android.lifecycle.HiltViewModel

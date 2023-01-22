@@ -19,7 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.ivanovdev.feature.R
-import com.ivanovdev.feature.screen.new_log.logic.models.CommonType
+import com.ivanovdev.feature.common.model.CommonType
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
 import com.ivanovdev.feature.ui.theme.L
 import com.ivanovdev.feature.ui.theme.M

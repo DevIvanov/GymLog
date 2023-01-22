@@ -55,9 +55,9 @@ fun LoggerViewSuccess(
                 .weight(1f)
                 .height(0.dp)
         ) {
-            uiState.data.value?.forEach { log ->
+            uiState.data.value?.forEach { workout ->
                 item {
-                    ItemLog(log.type, "13.01.2023", "${log.weightSum} kg")
+                    ItemLog(workout = workout)
                 }
             }
         }

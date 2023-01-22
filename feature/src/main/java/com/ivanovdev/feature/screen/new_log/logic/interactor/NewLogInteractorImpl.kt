@@ -1,9 +1,8 @@
 package com.ivanovdev.feature.screen.new_log.logic.interactor
 
-import com.ivanovdev.feature.screen.new_log.logic.mapper.NewLogMapper
-import com.ivanovdev.feature.screen.new_log.logic.models.UiWorkout
+import com.ivanovdev.feature.common.mapper.NewLogMapper
+import com.ivanovdev.feature.common.model.UiWorkout
 import com.ivanovdev.library.data.repository.DBRepository
-import com.ivanovdev.library.domainmodel.model.Workout
 import timber.log.Timber
 import javax.inject.Inject
 

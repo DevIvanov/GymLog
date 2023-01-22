@@ -2,10 +2,10 @@ package com.ivanovdev.feature.di
 
 import com.ivanovdev.feature.screen.new_log.logic.interactor.NewLogInteractor
 import com.ivanovdev.feature.screen.new_log.logic.interactor.NewLogInteractorImpl
-import com.ivanovdev.feature.screen.new_log.logic.mapper.CommonMapper
-import com.ivanovdev.feature.screen.new_log.logic.mapper.CommonMapperImpl
-import com.ivanovdev.feature.screen.new_log.logic.mapper.NewLogMapper
-import com.ivanovdev.feature.screen.new_log.logic.mapper.NewLogMapperImpl
+import com.ivanovdev.feature.common.mapper.CommonMapper
+import com.ivanovdev.feature.common.mapper.CommonMapperImpl
+import com.ivanovdev.feature.common.mapper.NewLogMapper
+import com.ivanovdev.feature.common.mapper.NewLogMapperImpl
 import com.ivanovdev.library.data.repository.DBRepository
 import dagger.Module
 import dagger.Provides

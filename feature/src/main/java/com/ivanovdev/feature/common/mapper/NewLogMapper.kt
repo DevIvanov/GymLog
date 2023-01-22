@@ -1,6 +1,6 @@
-package com.ivanovdev.feature.screen.new_log.logic.mapper
+package com.ivanovdev.feature.common.mapper
 
-import com.ivanovdev.feature.screen.new_log.logic.models.UiWorkout
+import com.ivanovdev.feature.common.model.UiWorkout
 import com.ivanovdev.library.domainmodel.model.Workout
 
 interface NewLogMapper {

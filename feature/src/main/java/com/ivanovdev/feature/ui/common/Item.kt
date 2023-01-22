@@ -16,10 +16,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ivanovdev.feature.R
+import com.ivanovdev.feature.common.model.UiWorkout
 import com.ivanovdev.feature.ui.theme.*
+import com.ivanovdev.library.common.ext.toStringDate
+import com.ivanovdev.library.domainmodel.model.Workout
+import timber.log.Timber
 
 @Composable
-fun ItemLog(type: String, date: String, weight: String, image: Int = R.drawable.placeholder) {
+fun ItemLog(workout: Workout, image: Int = R.drawable.placeholder) {
+    Timber.e("workout = $workout")
     Box(modifier = Modifier
         .padding(horizontal = S, vertical = XS)
         .height(200.dp)
@@ -42,13 +47,13 @@ fun ItemLog(type: String, date: String, weight: String, image: Int = R.drawable.
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = M),
-                    text = type,
+                    text = workout.type,
                     fontSize = TextXL,
                     fontFamily = FontFamily.SansSerif,
                     color = Color.White
                 )
                 Text(
-                    text = date,
+                    text = workout.date.toStringDate(),
                     fontSize = TextM,
                     fontFamily = FontFamily.Default,
                     color = GreyLightText
@@ -67,7 +72,7 @@ fun ItemLog(type: String, date: String, weight: String, image: Int = R.drawable.
                     color = Color.White
                 )
                 Text(
-                    text = weight,
+                    text = "${workout.weightSum} kg",
                     fontSize = TextM,
                     fontFamily = FontFamily.Default,
                     color = GreyLightText

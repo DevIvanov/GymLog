@@ -1,8 +1,7 @@
-package com.ivanovdev.feature.screen.new_log.logic.mapper
+package com.ivanovdev.feature.common.mapper
 
-import com.ivanovdev.feature.screen.new_log.logic.models.CommonType
-import com.ivanovdev.feature.screen.new_log.logic.models.UiExercise
-import timber.log.Timber
+import com.ivanovdev.feature.common.model.CommonType
+import com.ivanovdev.feature.common.model.UiExercise
 
 class CommonMapperImpl: CommonMapper {
 
@@ -10,7 +9,8 @@ class CommonMapperImpl: CommonMapper {
         val list = mutableListOf<CommonType>()
 
         uiExercises.forEachIndexed { index, exercise ->
-            list.add(CommonType.Exercise(
+            list.add(
+                CommonType.Exercise(
                 exercise.id,
                 index,
                 exercise.approaches.isEmpty(),
@@ -19,7 +19,8 @@ class CommonMapperImpl: CommonMapper {
                 exercise.isOwnWeight
             ))
             exercise.approaches.forEachIndexed { index2, approach ->
-                list.add(CommonType.Approach(
+                list.add(
+                    CommonType.Approach(
                     exercise.id,
                     approach.id,
                     exercise.approaches.size - 1 == index2,
