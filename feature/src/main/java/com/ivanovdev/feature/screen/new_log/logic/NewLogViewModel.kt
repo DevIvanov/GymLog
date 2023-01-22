@@ -63,22 +63,30 @@ class NewLogViewModel @Inject constructor(
                     notifyToUpdate = !update
                 )
             }
-            is NewLogEvent.AddApproach -> {
-                val id = try {
-                    _exercises.value[event.exerciseId].approaches.maxBy { it.id }.id + 1
-                } catch (e: Exception) {
-                    Timber.e(e.message)
-                    0
-                }
-                _exercises.value[event.exerciseId].approaches.add(UiApproach(id = id))
+            is NewLogEvent.DeleteExercise -> {
+                _exercises.value.removeAt(event.index)
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     commonList = mapper.fromUiToCommon(_exercises.value),
                     notifyToUpdate = !update
                 )
             }
-            is NewLogEvent.DeleteExercise -> {
-                _exercises.value.removeAt(event.index)
+            is NewLogEvent.AddApproach -> {
+                val approachId = try {
+                    _exercises.value[event.exerciseId].approaches.maxBy { it.id }.id + 1
+                } catch (e: Exception) {
+                    Timber.e(e.message)
+                    0
+                }
+                _exercises.value[event.exerciseId].approaches.add(UiApproach(id = approachId))
+                val update = currentState.notifyToUpdate
+                _uiState.value = currentState.copy(
+                    commonList = mapper.fromUiToCommon(_exercises.value),
+                    notifyToUpdate = !update
+                )
+            }
+            is NewLogEvent.DeleteApproach -> {
+                _exercises.value[event.exerciseId].approaches.removeAt(event.index)
                 val update = currentState.notifyToUpdate
                 _uiState.value = currentState.copy(
                     commonList = mapper.fromUiToCommon(_exercises.value),

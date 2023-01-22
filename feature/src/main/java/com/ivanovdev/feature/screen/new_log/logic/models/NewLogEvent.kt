@@ -25,6 +25,7 @@ sealed class NewLogEvent {
     data class DeleteExercise(val index: Int) : NewLogEvent()
     object AddExercise : NewLogEvent()
     data class AddApproach(val exerciseId: Int) : NewLogEvent()
+    data class DeleteApproach(val exerciseId: Int, val index: Int) : NewLogEvent()
     object SaveClicked : NewLogEvent()
 
 }

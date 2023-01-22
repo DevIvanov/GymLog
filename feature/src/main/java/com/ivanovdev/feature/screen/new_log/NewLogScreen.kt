@@ -61,7 +61,10 @@ fun NewLogScreen(
                     keyboardController?.hide()
                     viewModel.obtainEvent(NewLogEvent.SaveClicked)
                 },
-                addApproach = { viewModel.obtainEvent(NewLogEvent.AddApproach(it)) }
+                addApproach = { viewModel.obtainEvent(NewLogEvent.AddApproach(it)) },
+                deleteApproach = { exerciseId, approachId ->
+                    viewModel.obtainEvent(NewLogEvent.DeleteApproach(exerciseId, approachId))
+                }
             )
             is NewLogUiState.Edit -> {}
 //                NewLogViewEdit(

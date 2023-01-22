@@ -14,12 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
 import com.ivanovdev.feature.R
 import com.ivanovdev.feature.common.model.CommonType
 import com.ivanovdev.feature.common.util.WeightTransformation
@@ -33,7 +33,6 @@ import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
-import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import timber.log.Timber
 import java.time.LocalDate
 
@@ -51,7 +50,8 @@ fun NewLogViewNew(
     isOwnWeight: (Boolean, Int) -> Unit,
     onAddClick: () -> Unit,
     onSaveClicked: () -> Unit,
-    addApproach: (Int) -> Unit
+    addApproach: (Int) -> Unit,
+    deleteApproach: (Int, Int) -> Unit,
 ) {
     val calendarState = rememberSheetState()
 
@@ -145,6 +145,7 @@ fun NewLogViewNew(
                         ApproachItem(
                             exerciseId = common.exerciseId,
                             approachId = common.approachId,
+                            approachIndex = common.approachIndex,
                             isAddButtonVisible = common.isAddButtonVisible,
                             isOwnWeight = common.isOwnWeight,
                             weight = common.weight,
@@ -153,7 +154,8 @@ fun NewLogViewNew(
                             onWeightChanged = onWeightChanged,
                             onIterationChanged = onRepsChanged,
                             onSetsChanged = onApproachesChanged,
-                            addApproach = addApproach
+                            addApproach = addApproach,
+                            deleteApproach = deleteApproach
                         )
                     }
                 }
@@ -197,9 +199,9 @@ fun NewLogViewNew(
 
 @Composable
 fun ExerciseInfoItem(
-    isApproachEmpty: Boolean,
     exerciseId: Int,
     exerciseIndex: Int,
+    isApproachEmpty: Boolean,
     duration: String?,
     name: String?,
     ownWeight: Boolean,
@@ -267,8 +269,9 @@ fun ExerciseInfoItem(
 @Composable
 fun ApproachItem(
     exerciseId: Int,
-    isAddButtonVisible: Boolean,
     approachId: Int,
+    approachIndex: Int,
+    isAddButtonVisible: Boolean,
     isOwnWeight: Boolean,
     weight: String?,
     reps: String?,
@@ -276,7 +279,8 @@ fun ApproachItem(
     onWeightChanged: (String, Int, Int) -> Unit,
     onIterationChanged: (String, Int, Int) -> Unit,
     onSetsChanged: (String, Int, Int) -> Unit,
-    addApproach: (Int) -> Unit
+    addApproach: (Int) -> Unit,
+    deleteApproach: (Int, Int) -> Unit,
 ) {
     val doublePattern = remember { Regex("[0-9]{0," + 6 + "}+((\\.[0-9]{0," + 2 + "})?)||(\\.)?") }
     val intPattern = remember { Regex("^\\d+\$") }
@@ -315,6 +319,15 @@ fun ApproachItem(
                     keyboardType = KeyboardType.Decimal
                 ),
                 visualTransformation = WeightTransformation(" kg")
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                painter = painterResource(id = R.drawable.ic_close),
+                contentDescription = "Close",
+                tint = Color.White,
+                modifier = Modifier
+                    .clickable { deleteApproach(exerciseId, approachId) }
+                    .align(Alignment.Top)
             )
         }
         Row() {

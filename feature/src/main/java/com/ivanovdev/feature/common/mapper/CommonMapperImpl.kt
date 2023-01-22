@@ -18,12 +18,13 @@ class CommonMapperImpl: CommonMapper {
                 exercise.duration,
                 exercise.isOwnWeight
             ))
-            exercise.approaches.forEachIndexed { index2, approach ->
+            exercise.approaches.forEachIndexed { approachIndex, approach ->
                 list.add(
                     CommonType.Approach(
                     exercise.id,
                     approach.id,
-                    exercise.approaches.size - 1 == index2,
+                    approachIndex,
+                    exercise.approaches.size - 1 == approachIndex,
                     exercise.isOwnWeight,
                     approach.weight,
                     approach.reps,
