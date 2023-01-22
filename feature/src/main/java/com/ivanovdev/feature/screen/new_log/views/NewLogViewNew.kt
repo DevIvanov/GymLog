@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +28,9 @@ import com.ivanovdev.feature.ui.theme.XXL
 import com.ivanovdev.library.common.ext.toStringDate
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import java.time.LocalDate
 
 @Composable
@@ -50,7 +53,13 @@ fun NewLogViewNew(
 
     CalendarDialog(
         state = calendarState,
-        selection = CalendarSelection.Date { date ->
+        config = CalendarConfig(
+            yearSelection = true,
+            monthSelection = true
+        ),
+        selection = CalendarSelection.Date(
+            selectedDate = state.date
+        ) { date ->
             onDateClick(date)
         }
     )
@@ -272,7 +281,9 @@ fun ApproachItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            modifier = Modifier.padding(bottom = M).fillMaxWidth(),
+            modifier = Modifier
+                .padding(bottom = M)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Start
         ) {
             OutlinedTextField(
@@ -317,7 +328,9 @@ fun ApproachItem(
         }
         if (isAddButtonVisible) {
             Text(
-                modifier = Modifier.padding(top = L).clickable { addApproach(exerciseId) },
+                modifier = Modifier
+                    .padding(top = L)
+                    .clickable { addApproach(exerciseId) },
                 text = "Add next approach",
                 color = Color.White,
             )

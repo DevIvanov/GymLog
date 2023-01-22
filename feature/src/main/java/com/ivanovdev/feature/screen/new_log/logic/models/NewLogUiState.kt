@@ -7,7 +7,7 @@ sealed interface NewLogUiState {
 
     data class New(
         val name: String? = null,
-        val date: LocalDate? = null,
+        val date: LocalDate = LocalDate.now(),
         val commonList: List<CommonType> = listOf(),
 //        val exercises: List<UiExercise> = listOf(),
         val notifyToUpdate: Boolean = true
