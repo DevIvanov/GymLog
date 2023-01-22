@@ -9,5 +9,7 @@ data class UiWorkout(
     val comment: String? = null,
     val duration: Long? = null,
     var weightSum: Double? = null,
+    var localPhotos: List<String>? = null,
+    var remotePhotos: List<String>? = null,
     var exercises: List<UiExercise> = listOf()
 )

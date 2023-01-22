@@ -18,6 +18,8 @@ class NewLogMapperImpl : NewLogMapper {
             type ?: "",
             comment,
             duration,
+            localPhotos,
+            remotePhotos,
             exercises.map(::fromUiToDomainExercise),
         )
     }

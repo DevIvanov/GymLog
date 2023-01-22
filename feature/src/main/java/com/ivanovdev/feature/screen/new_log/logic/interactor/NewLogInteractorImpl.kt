@@ -16,7 +16,7 @@ class NewLogInteractorImpl @Inject constructor(
         try {
             repository.insert(mapper.fromUiToDomain(item))
         } catch (e: Exception) {
-            Timber.e(e.message)
+            Timber.e(e)
         }
 
     }

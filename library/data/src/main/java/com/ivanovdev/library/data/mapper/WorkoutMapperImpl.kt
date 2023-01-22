@@ -18,6 +18,8 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
             type,
             comment,
             duration,
+            localPhotos,
+            remotePhotos,
             exercises.map(::fromDomainToDbExercise),
             weightSum
         )
@@ -30,6 +32,8 @@ class WorkoutMapperImpl @Inject constructor() : WorkoutMapper {
             type,
             comment,
             duration,
+            localPhotos,
+            remotePhotos,
             exercises.map(::fromDbToDomainExercise)
         )
     }
