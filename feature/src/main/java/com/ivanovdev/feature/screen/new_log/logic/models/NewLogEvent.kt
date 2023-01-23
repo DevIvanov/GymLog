@@ -5,6 +5,8 @@ import java.time.LocalDate
 sealed class NewLogEvent {
     data class ChooseDate(val newValue: LocalDate) : NewLogEvent()
     data class TypeChanged(val newValue: String) : NewLogEvent()
+    data class CommentChanged(val newValue: String) : NewLogEvent()
+    data class DurationChanged(val newValue: Long) : NewLogEvent()
     data class NameChanged(val newValue: String, val id: Int) : NewLogEvent()
     data class WeightChanged(
         val newValue: String,

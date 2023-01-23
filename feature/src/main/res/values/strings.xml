@@ -19,6 +19,8 @@
     <string name="save">Save</string>
     <string name="add_exercise">Add new exercise</string>
     <string name="workout_type">Workout\'s type</string>
+    <string name="workout_duration">Workout\'s duration</string>
+    <string name="comment">Comment</string>
     <string name="weight">Weight</string>
     <string name="own_weight">Own weight</string>
     <string name="reps">Reps</string>

@@ -1,10 +1,14 @@
 package com.ivanovdev.feature.screen.new_log.views
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -14,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -28,11 +33,17 @@ import com.ivanovdev.feature.ui.theme.L
 import com.ivanovdev.feature.ui.theme.M
 import com.ivanovdev.feature.ui.theme.XXL
 import com.ivanovdev.library.common.ext.checkDouble
+import com.ivanovdev.library.common.ext.secondsToTime
 import com.ivanovdev.library.common.ext.toStringDate
+import com.maxkeppeker.sheets.core.models.base.SheetState
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.duration.DurationDialog
+import com.maxkeppeler.sheets.duration.models.DurationConfig
+import com.maxkeppeler.sheets.duration.models.DurationFormat
+import com.maxkeppeler.sheets.duration.models.DurationSelection
 import timber.log.Timber
 import java.time.LocalDate
 
@@ -41,7 +52,9 @@ fun NewLogViewNew(
     padding: PaddingValues,
     state: NewLogUiState.New,
     onDateClick: (LocalDate) -> Unit,
-    onTypeChanged: (String) -> Unit,
+    typeChanged: (String) -> Unit,
+    onDurationClick: (Long) -> Unit,
+    commentChanged: (String) -> Unit,
     onDeleteClick: (Int) -> Unit,
     onNameChanged: (String, Int) -> Unit,
     onWeightChanged: (String, Int, Int) -> Unit,
@@ -54,6 +67,7 @@ fun NewLogViewNew(
     deleteApproach: (Int, Int) -> Unit,
 ) {
     val calendarState = rememberSheetState()
+    val durationState = rememberSheetState()
 
     CalendarDialog(
         state = calendarState,
@@ -66,6 +80,17 @@ fun NewLogViewNew(
         ) { date ->
             onDateClick(date)
         }
+    )
+
+    DurationDialog(
+        state = durationState,
+        config = DurationConfig(
+            timeFormat = DurationFormat.HH_MM,
+            currentTime = state.duration,
+        ),
+        selection = DurationSelection { newTimeInSeconds ->
+            onDurationClick(newTimeInSeconds)
+        },
     )
 
     LazyColumn(
@@ -82,7 +107,7 @@ fun NewLogViewNew(
                 color = Color.White
             )
 
-            val trailingIconView = @Composable {
+            val calendarIconView = @Composable {
                 IconButton(
                     onClick = {
                         calendarState.show()
@@ -99,22 +124,75 @@ fun NewLogViewNew(
             OutlinedTextField(
                 value = state.date.toStringDate(),
                 onValueChange = {},
-                readOnly = true,
+                enabled = false,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = M),
+                    .padding(top = M)
+                    .clickable { calendarState.show() },
                 textStyle = TextStyle(color = Color.White),
-                trailingIcon = trailingIconView,
+                trailingIcon = calendarIconView,
             )
 
             OutlinedTextField(
                 value = state.name ?: "",
-                onValueChange = onTypeChanged,
+                onValueChange = typeChanged,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = M),
                 textStyle = TextStyle(color = Color.White),
                 label = { Text(text = stringResource(id = R.string.workout_type)) },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Text
+                )
+            )
+
+            val durationIconView = @Composable {
+                IconButton(
+                    onClick = {
+                        durationState.show()
+                    },
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_clock),
+                        contentDescription = "Calendar",
+                        tint = Color.White
+                    )
+                }
+            }
+
+            val labelColor = TextFieldDefaults.outlinedTextFieldColors()
+                .labelColor(
+                    enabled = true,
+                    error = false,
+                    interactionSource = remember { MutableInteractionSource() }
+                ).value
+
+            OutlinedTextField(
+                value = state.duration?.secondsToTime() ?: "",
+                onValueChange = {},
+                readOnly = true,
+                enabled = false,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = M)
+                    .clickable { durationState.show() },
+                textStyle = TextStyle(color = Color.White),
+                label = { Text(
+                    text = stringResource(id = R.string.workout_duration),
+                    color = labelColor
+                ) },
+                trailingIcon = durationIconView,
+            )
+
+            OutlinedTextField(
+                value = state.comment ?: "",
+                onValueChange = commentChanged,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = M),
+                textStyle = TextStyle(color = Color.White),
+                label = { Text(text = stringResource(id = R.string.comment)) },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Text

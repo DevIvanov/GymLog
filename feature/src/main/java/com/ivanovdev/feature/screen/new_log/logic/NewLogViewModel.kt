@@ -49,6 +49,12 @@ class NewLogViewModel @Inject constructor(
             is NewLogEvent.TypeChanged -> _uiState.value = currentState.copy(
                 name = event.newValue
             )
+            is NewLogEvent.DurationChanged -> _uiState.value = currentState.copy(
+                duration = event.newValue
+            )
+            is NewLogEvent.CommentChanged -> _uiState.value = currentState.copy(
+                comment = event.newValue
+            )
             NewLogEvent.AddExercise -> {
                 val id = try {
                     _exercises.value.maxBy { it.id }.id + 1

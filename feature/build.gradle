@@ -76,9 +76,10 @@ dependencies {
     // Material Design
 //    api 'com.google.android.material:material:1.8.0-rc01'
 
-    // Date Picker
+    // Date Picker, Duration
     implementation 'com.maxkeppeler.sheets-compose-dialogs:core:1.0.3' // necessary
     implementation 'com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.3'
+    implementation 'com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3'
 
     ///////
     def compose_version = "1.3.2"

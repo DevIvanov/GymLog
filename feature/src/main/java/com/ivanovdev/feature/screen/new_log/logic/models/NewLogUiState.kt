@@ -8,8 +8,9 @@ sealed interface NewLogUiState {
     data class New(
         val name: String? = null,
         val date: LocalDate = LocalDate.now(),
+        val comment: String? = null,
+        val duration: Long? = null,
         val commonList: List<CommonType> = listOf(),
-//        val exercises: List<UiExercise> = listOf(),
         val notifyToUpdate: Boolean = true
     ) : NewLogUiState
 

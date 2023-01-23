@@ -11,7 +11,6 @@ import androidx.navigation.NavController
 import com.ivanovdev.feature.screen.new_log.logic.NewLogViewModel
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogEvent
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
-import com.ivanovdev.feature.screen.new_log.views.NewLogViewEdit
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewError
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewNew
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewSuccess
@@ -39,7 +38,9 @@ fun NewLogScreen(
                 padding = padding,
                 state = uiState,
                 onDateClick = { viewModel.obtainEvent(NewLogEvent.ChooseDate(it)) },
-                onTypeChanged = { viewModel.obtainEvent(NewLogEvent.TypeChanged(it)) },
+                typeChanged = { viewModel.obtainEvent(NewLogEvent.TypeChanged(it)) },
+                onDurationClick = { viewModel.obtainEvent(NewLogEvent.DurationChanged(it)) },
+                commentChanged = { viewModel.obtainEvent(NewLogEvent.CommentChanged(it)) },
                 onDeleteClick = { viewModel.obtainEvent(NewLogEvent.DeleteExercise(it)) },
                 onNameChanged = { value, int ->
                     viewModel.obtainEvent(NewLogEvent.NameChanged(value, int))
