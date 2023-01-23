@@ -11,4 +11,8 @@ class LoggerInteractorImpl @Inject constructor(
 
     override fun readData(): Flow<List<Workout>> = repository.readAll()
 
+    override suspend fun deleteItem(workout: Workout) {
+        repository.delete(item = workout)
+    }
+
 }

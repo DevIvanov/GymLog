@@ -25,5 +25,6 @@
     <string name="own_weight">Собственный вес</string>
     <string name="reps">Повторения</string>
     <string name="approaches">Подходы</string>
+    <string name="kg">кг</string>
 
 </resources>

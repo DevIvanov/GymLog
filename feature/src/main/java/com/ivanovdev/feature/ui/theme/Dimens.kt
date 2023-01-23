@@ -20,3 +20,4 @@ val TextM = 14.sp
 val TextL = 16.sp
 val TextXL = 20.sp
 val TextXXL = 24.sp
+val TextSplash = 48.sp

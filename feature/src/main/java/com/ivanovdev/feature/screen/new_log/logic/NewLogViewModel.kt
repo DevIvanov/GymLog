@@ -156,8 +156,9 @@ class NewLogViewModel @Inject constructor(
                     UiWorkout(
                         date = state.date,
                         type = state.name,
-                        weightSum = 2300.0,
-                        exercises = _exercises.value //to add reverse mapper
+                        duration = state.duration,
+                        comment = state.comment,
+                        exercises = _exercises.value
                     )
                 )
                 _uiState.value = NewLogUiState.Success
@@ -166,7 +167,6 @@ class NewLogViewModel @Inject constructor(
                 Timber.e(e.message)
                 _uiState.value = NewLogUiState.Error(e.message)
             }
-
         }
     }
 

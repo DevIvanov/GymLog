@@ -2,13 +2,19 @@ package com.ivanovdev.feature.screen.logger.logic
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.ivanovdev.feature.screen.logger.logic.interactor.LoggerInteractor
 import com.ivanovdev.feature.screen.logger.logic.models.LoggerEvent
 import com.ivanovdev.feature.screen.logger.logic.models.LoggerUiState
 import com.ivanovdev.library.data.base.EventHandler
+import com.ivanovdev.library.domainmodel.model.Workout
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,9 +61,24 @@ class LoggerViewModel @Inject constructor(
             is LoggerEvent.ToEmptyState -> {
                 _uiState.value = LoggerUiState.Empty(data)
             }
+            is LoggerEvent.DeleteWorkout -> {
+                deleteFromDb(event.item)
+                _uiState.value = currentState.copy(data = data)
+            }
             else -> {}
         }
     }
 
+    private fun deleteFromDb(workout: Workout) {
+        Timber.d("workout = $workout")
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                interactor.deleteItem(workout)
+            }
+        } catch (e: Exception) {
+            Timber.e("deleteFromDb error = $e")
+        }
+
+    }
 
 }

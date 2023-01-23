@@ -70,7 +70,7 @@ fun MyAppNavHost(
         }
 
         lifecycleOwner.lifecycleScope.launch {
-            delay(20L)
+            delay(1000L)
             WindowCompat.setDecorFitsSystemWindows(activity.window, true)
             navController.navigate(Screen.Main.route)
         }

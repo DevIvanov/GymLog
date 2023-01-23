@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface LoggerInteractor {
     fun readData(): Flow<List<Workout>>
+    suspend fun deleteItem(workout: Workout)
 }

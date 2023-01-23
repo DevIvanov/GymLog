@@ -25,5 +25,6 @@
     <string name="own_weight">Own weight</string>
     <string name="reps">Reps</string>
     <string name="approaches">Approaches</string>
+    <string name="kg">kg</string>
 
 </resources>

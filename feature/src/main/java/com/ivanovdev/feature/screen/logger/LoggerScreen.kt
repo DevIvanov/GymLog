@@ -31,7 +31,8 @@ fun LoggerScreen(
         )
         is LoggerUiState.Success -> LoggerViewSuccess(
             uiState = state,
-            newWorkoutClick = { mainNavController.navigate(Screen.NewLog.route) }
+            newWorkoutClick = { mainNavController.navigate(Screen.NewLog.route) },
+            deleteItem = { viewModel.obtainEvent(LoggerEvent.DeleteWorkout(it)) }
         )
         is LoggerUiState.Empty -> LoggerViewEmpty(
             uiState = state,

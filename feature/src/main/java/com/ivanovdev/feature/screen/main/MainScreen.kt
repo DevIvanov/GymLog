@@ -88,7 +88,7 @@ fun BottomNavigationBar(navController: NavController) {
 
 @Composable
 fun Navigation(mainNavController: NavController, navController: NavHostController) {
-    NavHost(navController, startDestination = NavigationItem.Home.route) {
+    NavHost(navController, startDestination = NavigationItem.Logger.route) {
         composable(NavigationItem.Statistic.route) {
             StatisticScreen()
         }

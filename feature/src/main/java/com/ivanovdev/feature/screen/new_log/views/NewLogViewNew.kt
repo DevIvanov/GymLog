@@ -396,7 +396,7 @@ fun ApproachItem(
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Decimal
                 ),
-                visualTransformation = WeightTransformation(" kg")
+                visualTransformation = WeightTransformation(" ${stringResource(id = R.string.kg)}")
             )
             Spacer(modifier = Modifier.weight(1f))
             Icon(
