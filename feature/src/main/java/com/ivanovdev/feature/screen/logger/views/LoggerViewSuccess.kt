@@ -22,8 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -73,20 +75,6 @@ fun LoggerViewSuccess(
         }
     }
 
-//    var willDismissDirection: DismissDirection? by remember {
-//        mutableStateOf(null)
-//    }
-
-//    LaunchedEffect(key1 = Unit, block = {
-//        snapshotFlow { state.offset.value }
-//            .collect {
-//                willDismissDirection = when {
-//                    it > width * startActionsConfig.threshold -> DismissDirection.StartToEnd
-//                    it < -width * endActionsConfig.threshold -> DismissDirection.EndToStart
-//                    else -> null
-//                }
-//            }
-//    })
 
     if (data.value.isNullOrEmpty()) {
         toEmptyState()
@@ -112,36 +100,11 @@ fun LoggerViewSuccess(
                 .weight(1f)
                 .height(0.dp)
         ) {
-//            items(items = uiState.data.value?.toMutableStateList()
-//                ?: mutableStateListOf(), key = null) { workout ->
 
             itemsIndexed(items = uiState.data.value?.toMutableStateList()
                 ?: mutableStateListOf(), key = { _, item ->
                     item.hashCode()
-                }) { index, workout ->
-
-//            val startDismissConfig = SwipeActionsConfig()
-//            val endDismissConfig = SwipeActionsConfig()
-
-//            items(list ?: listOf()) { workout ->
-//                var unread by remember { mutableStateOf(false) }
-//                val state = rememberDismissState(
-//                    confirmStateChange = {
-//                        if (willDismissDirection == DismissDirection.StartToEnd
-//                            && it == DismissValue.DismissedToEnd
-//                        ) {
-//                            startActionsConfig.onDismiss()
-//                            startActionsConfig.stayDismissed
-//                        } else if (willDismissDirection == DismissDirection.EndToStart &&
-//                            it == DismissValue.DismissedToStart
-//                        ) {
-//                            endActionsConfig.onDismiss()
-//                            endActionsConfig.stayDismissed
-//                        } else {
-//                            false
-//                        }
-//                    }
-//              )
+                }) { _, workout ->
 
                 val state = rememberDismissState(
                     confirmStateChange = {
@@ -149,21 +112,31 @@ fun LoggerViewSuccess(
                             deleteItem(workout)
                         }
                         true
-//                        if (it == DismissValue.DismissedToEnd) unread = !unread
-//                        it != DismissValue.DismissedToEnd
                     }
                 )
 
+                val haptic = LocalHapticFeedback.current
+                LaunchedEffect(key1 = state, block = {
+                    if (state.dismissDirection != null) {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    }
+                })
+
                 SwipeToDismiss(
                     state = state,
-                    directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
+                    directions = setOf(DismissDirection.EndToStart),
                     background = {
                         val direction = state.dismissDirection ?: return@SwipeToDismiss
 
+//                        val color = when(state.dismissDirection) {
+//                            DismissDirection.StartToEnd -> Color.Transparent
+//                            DismissDirection.EndToStart -> Color.Red
+//                            null -> PrimaryDark
+//                        }
                         val color by animateColorAsState(
                             when (state.targetValue) {
-                                DismissValue.Default -> Color.LightGray
-                                DismissValue.DismissedToEnd -> Color.Green
+                                DismissValue.Default -> Color.Transparent
+                                DismissValue.DismissedToEnd -> Color.Transparent
                                 DismissValue.DismissedToStart -> Color.Red
                             }
                         )
@@ -189,26 +162,10 @@ fun LoggerViewSuccess(
                             Icon(
                                 icon,
                                 contentDescription = "Localized description",
-                                modifier = Modifier.scale(scale)
+                                modifier = Modifier.scale(scale),
+                                tint = Color.White
                             )
                         }
-//                        val color = when(state.dismissDirection) {
-//                            DismissDirection.StartToEnd -> Color.Transparent
-//                            DismissDirection.EndToStart -> Color.Red
-//                            null -> PrimaryDark
-//                        }
-//                        Box(modifier = Modifier
-//                            .fillMaxSize()
-//                            .background(color = color)
-//                            .padding(10.dp)
-//                        ) {
-//                            Icon(
-//                                imageVector = Icons.Default.Delete,
-//                                contentDescription = "Delete",
-//                                tint = Color.White,
-//                                modifier = Modifier.align(Alignment.CenterEnd)
-//                            )
-//                        }
                     },
 //                    dismissThresholds = {
 //                        if (it == DismissDirection.StartToEnd)
