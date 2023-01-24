@@ -174,17 +174,17 @@ fun LoggerViewSuccess(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(bottom = S, end = S),
-        contentAlignment = Alignment.BottomEnd
-    ) {
-        FloatingActionButton(
-            onClick = newWorkoutClick
-        ){ Icon(Icons.Filled.Add,"") }
-    }
+//    Box(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .fillMaxHeight()
+//            .padding(bottom = S, end = S),
+//        contentAlignment = Alignment.BottomEnd
+//    ) {
+//        FloatingActionButton(
+//            onClick = newWorkoutClick
+//        ){ Icon(Icons.Filled.Add,"") }
+//    }
 }
 
 

@@ -25,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ivanovdev.feature.R
 import com.ivanovdev.feature.screen.NavigationItem
+import com.ivanovdev.feature.screen.Screen
 import com.ivanovdev.feature.screen.home.HomeScreen
 import com.ivanovdev.feature.screen.logger.LoggerScreen
 import com.ivanovdev.feature.screen.profile.ProfileScreen
@@ -39,9 +40,10 @@ fun MainScreen(mainNavController: NavController) {
         floatingActionButton = {
             FloatingActionButton(
                 modifier = Modifier.size(40.dp),
-                backgroundColor = PrimaryLikeTransparent,
+//                backgroundColor = Primary,
 //                backgroundColor = Color.White,
-                onClick = { /* ... */ }) {
+                onClick = { mainNavController.navigate(Screen.NewLog.route) }
+            ) {
                 Icon(
                     imageVector = Icons.Rounded.Add,
                     contentDescription = "Add",

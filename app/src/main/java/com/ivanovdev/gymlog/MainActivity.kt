@@ -60,8 +60,13 @@ fun MyAppNavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(Screen.Splash.route) { SplashScreen() }
+        composable(Screen.Splash.route) {
+            SplashScreen()
+//            navController.backQueue.removeIf { it.destination.route == Screen.Splash.route}
+        }
         composable(Screen.Main.route) {
+//            navController.clearBackStack(Screen.Splash.route)
+//            it.updateState()
             MainScreen(navController)
             BackHandler(true) { }
         }

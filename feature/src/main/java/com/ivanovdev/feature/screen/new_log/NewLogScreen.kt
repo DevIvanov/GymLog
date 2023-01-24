@@ -8,6 +8,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ivanovdev.feature.screen.Screen
 import com.ivanovdev.feature.screen.new_log.logic.NewLogViewModel
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogEvent
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
@@ -30,7 +31,10 @@ fun NewLogScreen(
     Timber.e("uiState = $uiState")
 
     Scaffold(
-        topBar = { TopBarSecondary(onBackClick = { navController.popBackStack() }, title = "New Workout") },
+        topBar = { TopBarSecondary(
+            onBackClick = { navController.popBackStack(route = Screen.Main.route, inclusive = false) },
+            title = "New Workout")
+        },
         backgroundColor = PrimaryDark,
     ) { padding ->
         when (uiState) {
@@ -72,7 +76,9 @@ fun NewLogScreen(
 //                onCloseClick = { navController.popBackStack() }
 //            )
             is NewLogUiState.Success -> NewLogViewSuccess(
-                onCloseClick = { navController.popBackStack() }
+                onCloseClick = {
+                    navController.popBackStack(route = Screen.Main.route, inclusive = false)
+                }
             )
             is NewLogUiState.Error -> NewLogViewError(uiState = uiState)
         }

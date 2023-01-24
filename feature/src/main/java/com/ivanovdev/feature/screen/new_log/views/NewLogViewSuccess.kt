@@ -25,7 +25,7 @@ fun NewLogViewSuccess(
     onCloseClick: () -> Unit
 ) {
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = false) {
         delay(1000L)
         onCloseClick()
     }
