@@ -1,18 +1,15 @@
 package com.ivanovdev.feature.screen.logger.views
 
-import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
@@ -24,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,7 +34,6 @@ import com.ivanovdev.feature.ui.theme.*
 import com.ivanovdev.library.common.ext.secondsToTime
 import com.ivanovdev.library.common.ext.toStringDate
 import com.ivanovdev.library.domainmodel.model.Workout
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -46,39 +41,28 @@ import timber.log.Timber
 @Composable
 fun LoggerViewSuccess(
     uiState: LoggerUiState.Success,
-    toEmptyState: () -> Unit = {},
-    newWorkoutClick: () -> Unit = {},
+    toEmptyState: () -> Unit,
     deleteItem: (Workout) -> Unit = {}
 ) {
     val data = uiState.data.observeAsState()
 
-//    val list = remember {
-//        mutableStateListOf<Workout>().apply {
-//            uiState.data.value?.forEach { workout ->
-//                add(workout)
-//            }
-//        }
-//    }
+    if (uiState.data.value.isNullOrEmpty()) {
+        toEmptyState()
+        Timber.e("Yes")
+    }
 
-//    Timber.e("list size = ${list.size}")
     Timber.d("uiState.data size = ${data.value?.size}")
 
-    val scaffoldState = rememberScaffoldState()
-
-
-    LaunchedEffect(key1 = null) {
-        launch {
-            scaffoldState.snackbarHostState.showSnackbar(
-                message = "Deleted",
-                actionLabel = "Undo"
-            )
-        }
-    }
-
-
-    if (data.value.isNullOrEmpty()) {
-        toEmptyState()
-    }
+//    val scaffoldState = rememberScaffoldState()
+//
+//    LaunchedEffect(key1 = null) {
+//        launch {
+//            scaffoldState.snackbarHostState.showSnackbar(
+//                message = "Deleted",
+//                actionLabel = "Undo"
+//            )
+//        }
+//    }
 
     Column(
         modifier = Modifier
@@ -167,24 +151,12 @@ fun LoggerViewSuccess(
                             )
                         }
                     },
-                    dismissThresholds = { FractionalThreshold(0.3f) },
+                    dismissThresholds = { FractionalThreshold(0.2f) },
                     dismissContent = { ItemLog(workout = workout) },
                 )
             }
         }
     }
-
-//    Box(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .fillMaxHeight()
-//            .padding(bottom = S, end = S),
-//        contentAlignment = Alignment.BottomEnd
-//    ) {
-//        FloatingActionButton(
-//            onClick = newWorkoutClick
-//        ){ Icon(Icons.Filled.Add,"") }
-//    }
 }
 
 

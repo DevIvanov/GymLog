@@ -2,11 +2,7 @@ package com.ivanovdev.feature.screen.logger.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -17,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.ivanovdev.feature.R
 import com.ivanovdev.feature.screen.logger.logic.models.LoggerUiState
-import com.ivanovdev.feature.ui.theme.S
 import com.ivanovdev.feature.ui.theme.TextM
 import com.ivanovdev.feature.ui.theme.TextXL
 import com.ivanovdev.feature.ui.theme.XL
@@ -25,7 +20,6 @@ import com.ivanovdev.feature.ui.theme.XL
 @Composable
 fun LoggerViewEmpty(
     uiState: LoggerUiState.Empty,
-    newWorkoutClick: () -> Unit = {},
     toSuccessState: () -> Unit = {}
 ) {
     val data = uiState.data.observeAsState()
@@ -59,15 +53,4 @@ fun LoggerViewEmpty(
             fontWeight = FontWeight.Light
         )
     }
-//    Box(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .fillMaxHeight()
-//            .padding(bottom = S, end = S),
-//        contentAlignment = Alignment.BottomEnd
-//    ) {
-//        FloatingActionButton(
-//            onClick = newWorkoutClick
-//        ){ Icon(Icons.Filled.Add,"") }
-//    }
 }

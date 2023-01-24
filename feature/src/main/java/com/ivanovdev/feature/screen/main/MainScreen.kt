@@ -1,7 +1,6 @@
 package com.ivanovdev.feature.screen.main
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CornerSize
@@ -30,7 +29,8 @@ import com.ivanovdev.feature.screen.home.HomeScreen
 import com.ivanovdev.feature.screen.logger.LoggerScreen
 import com.ivanovdev.feature.screen.profile.ProfileScreen
 import com.ivanovdev.feature.screen.statistic.StatisticScreen
-import com.ivanovdev.feature.ui.theme.*
+import com.ivanovdev.feature.ui.theme.Primary
+import com.ivanovdev.feature.ui.theme.PrimaryDark
 
 @Composable
 fun MainScreen(mainNavController: NavController) {
@@ -138,7 +138,7 @@ fun Navigation(mainNavController: NavController, navController: NavHostControlle
             HomeScreen()
         }
         composable(NavigationItem.Logger.route) {
-            LoggerScreen(mainNavController = mainNavController)
+            LoggerScreen()
         }
         composable(NavigationItem.Profile.route) {
             ProfileScreen()

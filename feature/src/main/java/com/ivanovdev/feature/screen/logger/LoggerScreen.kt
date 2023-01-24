@@ -18,7 +18,6 @@ import timber.log.Timber
 @Composable
 fun LoggerScreen(
     viewModel: LoggerViewModel = hiltViewModel(),
-    mainNavController: NavController,
 ) {
     val uiState= viewModel.uiState.collectAsState()
     Timber.e("LoggerScreen = ${uiState.value}")
@@ -31,12 +30,11 @@ fun LoggerScreen(
         )
         is LoggerUiState.Success -> LoggerViewSuccess(
             uiState = state,
-            newWorkoutClick = { mainNavController.navigate(Screen.NewLog.route) },
+            toEmptyState = { viewModel.obtainEvent(LoggerEvent.ToEmptyState) },
             deleteItem = { viewModel.obtainEvent(LoggerEvent.DeleteWorkout(it)) }
         )
         is LoggerUiState.Empty -> LoggerViewEmpty(
             uiState = state,
-            newWorkoutClick = { mainNavController.navigate(Screen.NewLog.route) },
             toSuccessState = { viewModel.obtainEvent(LoggerEvent.ToSuccessState) }
         )
         is LoggerUiState.Error -> LoggerViewError(uiState = state)
