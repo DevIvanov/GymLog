@@ -9,6 +9,7 @@
     <!--    Common  -->
     <string name="error">Error!</string>
     <string name="generic_error">Something went wrong.</string>
+    <string name="close">Close</string>
 
     <!--    Logger Screen  -->
     <string name="exercise">Exercise %1$s</string>

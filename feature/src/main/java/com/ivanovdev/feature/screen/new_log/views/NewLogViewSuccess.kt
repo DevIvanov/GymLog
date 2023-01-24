@@ -5,21 +5,31 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivanovdev.feature.R
 import com.ivanovdev.feature.ui.theme.GreyLightText
 import com.ivanovdev.feature.ui.theme.Primary
 import com.ivanovdev.feature.ui.theme.PrimaryDark
+import kotlinx.coroutines.delay
 
 @Composable
 fun NewLogViewSuccess(
     modifier: Modifier = Modifier,
     onCloseClick: () -> Unit
 ) {
+
+    LaunchedEffect(key1 = true) {
+        delay(1000L)
+        onCloseClick()
+    }
+
     Surface(
         modifier = modifier.fillMaxSize(),
         color = PrimaryDark
@@ -29,7 +39,7 @@ fun NewLogViewSuccess(
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.Center),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = CenterHorizontally
             ) {
                 Icon(
                     modifier = Modifier
@@ -60,7 +70,7 @@ fun NewLogViewSuccess(
                     )
                 ) {
                     Text(
-                        text = "Close",
+                        text = stringResource(id = R.string.close),
                         color = PrimaryDark
                     )
                 }

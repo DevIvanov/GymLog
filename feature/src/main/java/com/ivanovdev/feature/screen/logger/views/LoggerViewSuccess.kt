@@ -167,11 +167,7 @@ fun LoggerViewSuccess(
                             )
                         }
                     },
-//                    dismissThresholds = {
-//                        if (it == DismissDirection.StartToEnd)
-//                            FractionalThreshold(startDismissConfig.threshold)
-//                        else FractionalThreshold(endDismissConfig.threshold)
-//                    },
+                    dismissThresholds = { FractionalThreshold(0.3f) },
                     dismissContent = { ItemLog(workout = workout) },
                 )
             }

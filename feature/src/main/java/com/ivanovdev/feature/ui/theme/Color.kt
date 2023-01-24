@@ -12,6 +12,8 @@ val Primary = Color(0xFF1B618F)
 val PrimaryLight = Color(0xFF3E7FAA)
 val PrimaryDark = Color(0xFF052941)
 
+val PrimaryLikeTransparent = Color(0xFF76A0BC)
+
 val GreyDivider = Color(0xFF6D6D6D)
 
 val BlackText = Color(0xFF1B1B1B)
