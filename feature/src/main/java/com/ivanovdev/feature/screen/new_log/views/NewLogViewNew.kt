@@ -1,14 +1,11 @@
 package com.ivanovdev.feature.screen.new_log.views
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -18,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -28,14 +24,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.ivanovdev.feature.R
 import com.ivanovdev.feature.common.model.CommonType
 import com.ivanovdev.feature.common.util.WeightTransformation
+import com.ivanovdev.feature.screen.Screen
 import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
+import com.ivanovdev.feature.ui.common.TopBarSecondary
 import com.ivanovdev.feature.ui.theme.L
 import com.ivanovdev.feature.ui.theme.M
+import com.ivanovdev.feature.ui.theme.PrimaryDark
 import com.ivanovdev.feature.ui.theme.XXL
 import com.ivanovdev.library.common.ext.checkDouble
 import com.ivanovdev.library.common.ext.secondsToTime
 import com.ivanovdev.library.common.ext.toStringDate
-import com.maxkeppeker.sheets.core.models.base.SheetState
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -49,7 +47,6 @@ import java.time.LocalDate
 
 @Composable
 fun NewLogViewNew(
-    padding: PaddingValues,
     state: NewLogUiState.New,
     onDateClick: (LocalDate) -> Unit,
     typeChanged: (String) -> Unit,
@@ -65,6 +62,7 @@ fun NewLogViewNew(
     onSaveClicked: () -> Unit,
     addApproach: (Int) -> Unit,
     deleteApproach: (Int, Int) -> Unit,
+    onBackClick: () -> Unit
 ) {
     val calendarState = rememberSheetState()
     val durationState = rememberSheetState()
@@ -93,183 +91,194 @@ fun NewLogViewNew(
         },
     )
 
-    LazyColumn(
-        modifier = Modifier.padding(all = L),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        item {
-            Text(
-                text = "Common Info",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = M),
-                color = Color.White
-            )
-
-            val calendarIconView = @Composable {
-                IconButton(
-                    onClick = {
-                        calendarState.show()
-                    },
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_calendar),
-                        contentDescription = "Calendar",
-                        tint = Color.White
-                    )
-                }
-            }
-
-            OutlinedTextField(
-                value = state.date.toStringDate(),
-                onValueChange = {},
-                enabled = false,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = M)
-                    .clickable { calendarState.show() },
-                textStyle = TextStyle(color = Color.White),
-                trailingIcon = calendarIconView,
-            )
-
-            OutlinedTextField(
-                value = state.name ?: "",
-                onValueChange = typeChanged,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = M),
-                textStyle = TextStyle(color = Color.White),
-                label = { Text(text = stringResource(id = R.string.workout_type)) },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Text
+    Scaffold(
+        topBar = { TopBarSecondary(
+            onBackClick = onBackClick,
+            title = "New Workout")
+        },
+        backgroundColor = PrimaryDark
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier.padding(all = L),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            item {
+                Text(
+                    text = "Common Info",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = M),
+                    color = Color.White
                 )
-            )
 
-            val durationIconView = @Composable {
-                IconButton(
-                    onClick = {
-                        durationState.show()
-                    },
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_clock),
-                        contentDescription = "Calendar",
-                        tint = Color.White
-                    )
-                }
-            }
-
-            val labelColor = TextFieldDefaults.outlinedTextFieldColors()
-                .labelColor(
-                    enabled = true,
-                    error = false,
-                    interactionSource = remember { MutableInteractionSource() }
-                ).value
-
-            OutlinedTextField(
-                value = state.duration?.secondsToTime() ?: "",
-                onValueChange = {},
-                readOnly = true,
-                enabled = false,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = M)
-                    .clickable { durationState.show() },
-                textStyle = TextStyle(color = Color.White),
-                label = { Text(
-                    text = stringResource(id = R.string.workout_duration),
-                    color = labelColor
-                ) },
-                trailingIcon = durationIconView,
-            )
-
-            OutlinedTextField(
-                value = state.comment ?: "",
-                onValueChange = commentChanged,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = M),
-                textStyle = TextStyle(color = Color.White),
-                label = { Text(text = stringResource(id = R.string.comment)) },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Text
-                )
-            )
-        }
-
-        state.commonList.forEach { common ->
-            when (common) {
-                is CommonType.Exercise -> {
-                    item {
-                        ExerciseInfoItem(
-                            exerciseId = common.exerciseId,
-                            exerciseIndex = common.exerciseIndex,
-                            isApproachEmpty = common.isApproachEmpty,
-                            duration = common.duration,
-                            name = common.name,
-                            ownWeight = common.ownWeight,
-                            onDeleteClick = onDeleteClick,
-                            onNameChanged = onNameChanged,
-                            isOwnWeight = isOwnWeight,
-                            addApproach = addApproach,
+                val calendarIconView = @Composable {
+                    IconButton(
+                        onClick = {
+                            calendarState.show()
+                        },
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_calendar),
+                            contentDescription = "Calendar",
+                            tint = Color.White
                         )
                     }
                 }
-                is CommonType.Approach -> {
-                    item {
-                        ApproachItem(
-                            exerciseId = common.exerciseId,
-                            approachId = common.approachId,
-                            approachIndex = common.approachIndex,
-                            isAddButtonVisible = common.isAddButtonVisible,
-                            isOwnWeight = common.isOwnWeight,
-                            weight = common.weight,
-                            reps = common.reps,
-                            approaches = common.approaches,
-                            onWeightChanged = onWeightChanged,
-                            onIterationChanged = onRepsChanged,
-                            onSetsChanged = onApproachesChanged,
-                            addApproach = addApproach,
-                            deleteApproach = deleteApproach
+
+                OutlinedTextField(
+                    value = state.date.toStringDate(),
+                    onValueChange = {},
+                    enabled = false,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = M)
+                        .clickable { calendarState.show() },
+                    textStyle = TextStyle(color = Color.White),
+                    trailingIcon = calendarIconView,
+                )
+
+                OutlinedTextField(
+                    value = state.name ?: "",
+                    onValueChange = typeChanged,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = M),
+                    textStyle = TextStyle(color = Color.White),
+                    label = { Text(text = stringResource(id = R.string.workout_type)) },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Text
+                    )
+                )
+
+                val durationIconView = @Composable {
+                    IconButton(
+                        onClick = {
+                            durationState.show()
+                        },
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_clock),
+                            contentDescription = "Calendar",
+                            tint = Color.White
                         )
                     }
                 }
-                is CommonType.AddButton -> {
-                    item {
-                        Button(
-                            onClick = { onAddClick() },
-                            modifier = Modifier.padding(top = L)
-                        ) {
-                            Icon(
-                                Icons.Default.Add,
-                                modifier = Modifier.padding(end = L),
-                                contentDescription = "Add",
-                                tint = Color.White
+
+                val labelColor = TextFieldDefaults.outlinedTextFieldColors()
+                    .labelColor(
+                        enabled = true,
+                        error = false,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ).value
+
+                OutlinedTextField(
+                    value = state.duration?.secondsToTime(
+                        stringResource(id = R.string.hours),
+                        stringResource(id = R.string.minutes)
+                    ) ?: "",
+                    onValueChange = {},
+                    readOnly = true,
+                    enabled = false,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = M)
+                        .clickable { durationState.show() },
+                    textStyle = TextStyle(color = Color.White),
+                    label = { Text(
+                        text = stringResource(id = R.string.workout_duration),
+                        color = labelColor
+                    ) },
+                    trailingIcon = durationIconView,
+                )
+
+                OutlinedTextField(
+                    value = state.comment ?: "",
+                    onValueChange = commentChanged,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = M),
+                    textStyle = TextStyle(color = Color.White),
+                    label = { Text(text = stringResource(id = R.string.comment)) },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Text
+                    )
+                )
+            }
+
+            state.commonList.forEach { common ->
+                when (common) {
+                    is CommonType.Exercise -> {
+                        item {
+                            ExerciseInfoItem(
+                                exerciseId = common.exerciseId,
+                                exerciseIndex = common.exerciseIndex,
+                                isApproachEmpty = common.isApproachEmpty,
+                                duration = common.duration,
+                                name = common.name,
+                                ownWeight = common.ownWeight,
+                                onDeleteClick = onDeleteClick,
+                                onNameChanged = onNameChanged,
+                                isOwnWeight = isOwnWeight,
+                                addApproach = addApproach,
                             )
-                            Text(
-                                text = stringResource(id = R.string.add_exercise).uppercase(),
-                                color = Color.White
+                        }
+                    }
+                    is CommonType.Approach -> {
+                        item {
+                            ApproachItem(
+                                exerciseId = common.exerciseId,
+                                approachId = common.approachId,
+                                approachIndex = common.approachIndex,
+                                isAddButtonVisible = common.isAddButtonVisible,
+                                isOwnWeight = common.isOwnWeight,
+                                weight = common.weight,
+                                reps = common.reps,
+                                approaches = common.approaches,
+                                onWeightChanged = onWeightChanged,
+                                onIterationChanged = onRepsChanged,
+                                onSetsChanged = onApproachesChanged,
+                                addApproach = addApproach,
+                                deleteApproach = deleteApproach
                             )
+                        }
+                    }
+                    is CommonType.AddButton -> {
+                        item {
+                            Button(
+                                onClick = { onAddClick() },
+                                modifier = Modifier.padding(top = L)
+                            ) {
+                                Icon(
+                                    Icons.Default.Add,
+                                    modifier = Modifier.padding(end = L),
+                                    contentDescription = "Add",
+                                    tint = Color.White
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.add_exercise).uppercase(),
+                                    color = Color.White
+                                )
+                            }
                         }
                     }
                 }
             }
-        }
 
-        item {
-            Button(
-                onClick = { onSaveClicked() },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = XXL)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.save).uppercase(),
-                    color = Color.White
-                )
+            item {
+                Button(
+                    onClick = { onSaveClicked() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = XXL)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.save).uppercase(),
+                        color = Color.White
+                    )
+                }
             }
         }
     }

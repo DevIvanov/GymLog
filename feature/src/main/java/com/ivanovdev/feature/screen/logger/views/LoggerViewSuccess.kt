@@ -34,7 +34,6 @@ import com.ivanovdev.feature.ui.theme.*
 import com.ivanovdev.library.common.ext.secondsToTime
 import com.ivanovdev.library.common.ext.toStringDate
 import com.ivanovdev.library.domainmodel.model.Workout
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -249,7 +248,10 @@ fun ItemLog(workout: Workout, image: Int = R.drawable.placeholder) {
                         color = Color.White
                     )
                     Text(
-                        text = workout.duration?.secondsToTime() ?: "",
+                        text = workout.duration?.secondsToTime(
+                            stringResource(id = R.string.hours),
+                            stringResource(id = R.string.minutes)
+                        ) ?: "",
                         fontSize = TextL,
                         fontFamily = FontFamily.SansSerif,
                         color = Color.White

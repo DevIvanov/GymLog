@@ -27,5 +27,7 @@
     <string name="reps">Reps</string>
     <string name="approaches">Approaches</string>
     <string name="kg">kg</string>
+    <string name="hours">h</string>
+    <string name="minutes">m</string>
 
 </resources>

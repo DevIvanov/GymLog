@@ -27,5 +27,7 @@
     <string name="reps">Повторения</string>
     <string name="approaches">Подходы</string>
     <string name="kg">кг</string>
+    <string name="hours">ч</string>
+    <string name="minutes">м</string>
 
 </resources>

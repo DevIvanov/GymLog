@@ -30,58 +30,50 @@ fun NewLogScreen(
 
     Timber.e("uiState = $uiState")
 
-    Scaffold(
-        topBar = { TopBarSecondary(
-            onBackClick = { navController.popBackStack(route = Screen.Main.route, inclusive = false) },
-            title = "New Workout")
-        },
-        backgroundColor = PrimaryDark,
-    ) { padding ->
-        when (uiState) {
-            is NewLogUiState.New -> NewLogViewNew(
-                padding = padding,
-                state = uiState,
-                onDateClick = { viewModel.obtainEvent(NewLogEvent.ChooseDate(it)) },
-                typeChanged = { viewModel.obtainEvent(NewLogEvent.TypeChanged(it)) },
-                onDurationClick = { viewModel.obtainEvent(NewLogEvent.DurationChanged(it)) },
-                commentChanged = { viewModel.obtainEvent(NewLogEvent.CommentChanged(it)) },
-                onDeleteClick = { viewModel.obtainEvent(NewLogEvent.DeleteExercise(it)) },
-                onNameChanged = { value, int ->
-                    viewModel.obtainEvent(NewLogEvent.NameChanged(value, int))
-                },
-                isOwnWeight = { value, id ->
-                    viewModel.obtainEvent(NewLogEvent.IsOwnWeight(value, id))
-                },
-                onWeightChanged = { value, exerciseId, approachId ->
-                    viewModel.obtainEvent(NewLogEvent.WeightChanged(value, exerciseId, approachId))
-                },
-                onRepsChanged = { value, exerciseId, approachId ->
-                    viewModel.obtainEvent(NewLogEvent.RepsChanged(value, exerciseId, approachId))
-                },
-                onApproachesChanged = { value, exerciseId, approachId ->
-                    viewModel.obtainEvent(NewLogEvent.ApproachesChanged(value, exerciseId, approachId))
-                },
-                onAddClick = { viewModel.obtainEvent(NewLogEvent.AddExercise) },
-                onSaveClicked = {
-                    keyboardController?.hide()
-                    viewModel.obtainEvent(NewLogEvent.SaveClicked)
-                },
-                addApproach = { viewModel.obtainEvent(NewLogEvent.AddApproach(it)) },
-                deleteApproach = { exerciseId, approachId ->
-                    viewModel.obtainEvent(NewLogEvent.DeleteApproach(exerciseId, approachId))
-                }
-            )
-            is NewLogUiState.Edit -> {}
+    when (uiState) {
+        is NewLogUiState.New -> NewLogViewNew(
+            state = uiState,
+            onDateClick = { viewModel.obtainEvent(NewLogEvent.ChooseDate(it)) },
+            typeChanged = { viewModel.obtainEvent(NewLogEvent.TypeChanged(it)) },
+            onDurationClick = { viewModel.obtainEvent(NewLogEvent.DurationChanged(it)) },
+            commentChanged = { viewModel.obtainEvent(NewLogEvent.CommentChanged(it)) },
+            onDeleteClick = { viewModel.obtainEvent(NewLogEvent.DeleteExercise(it)) },
+            onNameChanged = { value, int ->
+                viewModel.obtainEvent(NewLogEvent.NameChanged(value, int))
+            },
+            isOwnWeight = { value, id ->
+                viewModel.obtainEvent(NewLogEvent.IsOwnWeight(value, id))
+            },
+            onWeightChanged = { value, exerciseId, approachId ->
+                viewModel.obtainEvent(NewLogEvent.WeightChanged(value, exerciseId, approachId))
+            },
+            onRepsChanged = { value, exerciseId, approachId ->
+                viewModel.obtainEvent(NewLogEvent.RepsChanged(value, exerciseId, approachId))
+            },
+            onApproachesChanged = { value, exerciseId, approachId ->
+                viewModel.obtainEvent(NewLogEvent.ApproachesChanged(value, exerciseId, approachId))
+            },
+            onAddClick = { viewModel.obtainEvent(NewLogEvent.AddExercise) },
+            onSaveClicked = {
+                keyboardController?.hide()
+                viewModel.obtainEvent(NewLogEvent.SaveClicked)
+            },
+            addApproach = { viewModel.obtainEvent(NewLogEvent.AddApproach(it)) },
+            deleteApproach = { exerciseId, approachId ->
+                viewModel.obtainEvent(NewLogEvent.DeleteApproach(exerciseId, approachId))
+            },
+            onBackClick = { navController.popBackStack(route = Screen.Main.route, inclusive = false) }
+        )
+        is NewLogUiState.Edit -> {}
 //                NewLogViewEdit(
 //                onCloseClick = { navController.popBackStack() }
 //            )
-            is NewLogUiState.Success -> NewLogViewSuccess(
-                onCloseClick = {
-                    navController.popBackStack(route = Screen.Main.route, inclusive = false)
-                }
-            )
-            is NewLogUiState.Error -> NewLogViewError(uiState = uiState)
-        }
+        is NewLogUiState.Success -> NewLogViewSuccess(
+            onCloseClick = {
+                navController.popBackStack(route = Screen.Main.route, inclusive = false)
+            }
+        )
+        is NewLogUiState.Error -> NewLogViewError(uiState = uiState)
     }
 
 }

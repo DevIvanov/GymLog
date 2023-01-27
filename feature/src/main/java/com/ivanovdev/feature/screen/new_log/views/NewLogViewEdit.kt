@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun NewLogViewEdit(
-    padding: PaddingValues,
     submitClick: (String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
@@ -20,7 +19,6 @@ fun NewLogViewEdit(
     Column() {
         Text(
             text = "New Log Screen",
-            modifier = Modifier.padding(padding),
             color = Color.White
         )
         TextField(value = name, onValueChange = { name = it })
