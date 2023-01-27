@@ -1,11 +1,8 @@
 package com.ivanovdev.feature.screen.logger
 
-import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import com.ivanovdev.feature.screen.Screen
 import com.ivanovdev.feature.screen.logger.logic.LoggerViewModel
 import com.ivanovdev.feature.screen.logger.logic.models.LoggerEvent
 import com.ivanovdev.feature.screen.logger.logic.models.LoggerUiState
@@ -31,7 +28,9 @@ fun LoggerScreen(
         is LoggerUiState.Success -> LoggerViewSuccess(
             uiState = state,
             toEmptyState = { viewModel.obtainEvent(LoggerEvent.ToEmptyState) },
-            deleteItem = { viewModel.obtainEvent(LoggerEvent.DeleteWorkout(it)) }
+            deleteItem = { viewModel.obtainEvent(LoggerEvent.DeleteWorkout(it)) },
+            deleteItemFromList = { viewModel.obtainEvent(LoggerEvent.DeleteWorkoutFromList(it)) },
+            cancelDeletion = { viewModel.obtainEvent(LoggerEvent.CancelDeletion) }
         )
         is LoggerUiState.Empty -> LoggerViewEmpty(
             uiState = state,

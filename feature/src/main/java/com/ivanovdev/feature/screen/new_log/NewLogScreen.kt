@@ -1,7 +1,6 @@
 package com.ivanovdev.feature.screen.new_log
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -15,8 +14,6 @@ import com.ivanovdev.feature.screen.new_log.logic.models.NewLogUiState
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewError
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewNew
 import com.ivanovdev.feature.screen.new_log.views.NewLogViewSuccess
-import com.ivanovdev.feature.ui.common.TopBarSecondary
-import com.ivanovdev.feature.ui.theme.PrimaryDark
 import timber.log.Timber
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
@@ -62,7 +59,10 @@ fun NewLogScreen(
             deleteApproach = { exerciseId, approachId ->
                 viewModel.obtainEvent(NewLogEvent.DeleteApproach(exerciseId, approachId))
             },
-            onBackClick = { navController.popBackStack(route = Screen.Main.route, inclusive = false) }
+            onBackClick = {
+                    // show snackbar as a suspend function
+                navController.popBackStack(route = Screen.Main.route, inclusive = false)
+            }
         )
         is NewLogUiState.Edit -> {}
 //                NewLogViewEdit(

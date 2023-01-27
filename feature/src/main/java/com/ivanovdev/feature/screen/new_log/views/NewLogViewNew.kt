@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +43,7 @@ import com.maxkeppeler.sheets.duration.DurationDialog
 import com.maxkeppeler.sheets.duration.models.DurationConfig
 import com.maxkeppeler.sheets.duration.models.DurationFormat
 import com.maxkeppeler.sheets.duration.models.DurationSelection
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
 
@@ -91,7 +93,11 @@ fun NewLogViewNew(
         },
     )
 
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = { TopBarSecondary(
             onBackClick = onBackClick,
             title = "New Workout")
@@ -115,7 +121,10 @@ fun NewLogViewNew(
                 val calendarIconView = @Composable {
                     IconButton(
                         onClick = {
-                            calendarState.show()
+//                            calendarState.show()
+                            scope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("Snackbar # $")
+                            }
                         },
                     ) {
                         Icon(

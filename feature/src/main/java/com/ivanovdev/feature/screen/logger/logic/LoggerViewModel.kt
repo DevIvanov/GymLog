@@ -1,5 +1,6 @@
 package com.ivanovdev.feature.screen.logger.logic
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +23,7 @@ class LoggerViewModel @Inject constructor(
 ): ViewModel(), EventHandler<LoggerEvent> {
 
     val data = interactor.readData().asLiveData()
+    private val temporaryList: MutableList<Workout> = data.value?.toMutableList() ?: mutableListOf()
 
     private val _uiState: MutableStateFlow<LoggerUiState> =
         MutableStateFlow(LoggerUiState.Loading(data))
@@ -61,9 +62,30 @@ class LoggerViewModel @Inject constructor(
             is LoggerEvent.ToEmptyState -> {
                 _uiState.value = LoggerUiState.Empty(data)
             }
+            is LoggerEvent.DeleteWorkoutFromList -> {
+//                val temporaryList = data.value?.toMutableList()
+//                temporaryList?.remove(event.item)
+//                val temporaryData = MutableLiveData<List<Workout>>(temporaryList)
+//                _uiState.value = currentState.copy(data = temporaryData)
+                if (temporaryList.isEmpty())
+                    data.value?.let { temporaryList.addAll(it) }
+                temporaryList.remove(event.item)
+                Timber.e("temporaryList = $temporaryList")
+                val temporaryData = MutableLiveData<List<Workout>>(temporaryList)
+                _uiState.value = currentState.copy(data = temporaryData)
+            }
             is LoggerEvent.DeleteWorkout -> {
                 deleteFromDb(event.item)
                 _uiState.value = currentState.copy(data = data)
+                //check
+                temporaryList.clear()
+                data.value?.let { temporaryList.addAll(it) }
+            }
+            LoggerEvent.CancelDeletion -> {
+                _uiState.value = currentState.copy(data = data)
+                //check
+                temporaryList.clear()
+                data.value?.let { temporaryList.addAll(it) }
             }
             else -> {}
         }
