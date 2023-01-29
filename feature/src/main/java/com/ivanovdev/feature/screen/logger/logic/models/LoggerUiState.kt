@@ -5,7 +5,10 @@ import com.ivanovdev.library.domainmodel.model.Workout
 
 sealed interface LoggerUiState {
     data class Loading(val data: LiveData<List<Workout>>) : LoggerUiState
-    data class Success(val data: LiveData<List<Workout>>) : LoggerUiState
+    data class Success(
+        val data: LiveData<List<Workout>>,
+        val isTemporary: Boolean = false
+    ) : LoggerUiState
     data class Empty(val data: LiveData<List<Workout>>) : LoggerUiState
     data class Error(val errorMessage: String?) : LoggerUiState
 }

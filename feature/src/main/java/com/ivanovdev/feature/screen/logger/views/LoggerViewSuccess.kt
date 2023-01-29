@@ -1,8 +1,6 @@
 package com.ivanovdev.feature.screen.logger.views
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -53,7 +51,7 @@ fun LoggerViewSuccess(
 ) {
     val data = uiState.data.observeAsState()
 
-    if (uiState.data.value.isNullOrEmpty()) {
+    if (uiState.data.value.isNullOrEmpty() && !uiState.isTemporary) {
         toEmptyState()
     }
 
@@ -75,6 +73,7 @@ fun LoggerViewSuccess(
                     backgroundColor = GreyDivider,
                     snackbarData = data
                 )
+
             }
         },
     ) { padding ->
@@ -104,18 +103,11 @@ fun LoggerViewSuccess(
                     item.hashCode()
                 }){ _, workout ->
 
-                    val transitionState = remember {
-                        MutableTransitionState(false).apply {
-                            targetState = true
-                        }
-                    }
-
                     val state = rememberDismissState(
                         confirmStateChange = {
                             if (it == DismissValue.DismissedToStart) {
                                 scope.launch {
                                     deleteItemFromList(workout)
-                                    transitionState.targetState = !transitionState.targetState
                                     val snackbarResult = scaffoldState.snackbarHostState
                                         .showSnackbar(
                                             message = "Workout is deleted",
@@ -145,11 +137,7 @@ fun LoggerViewSuccess(
                         dismissThresholds = { FractionalThreshold(0.2f) },
                         modifier = Modifier.animateItemPlacement(),
                         dismissContent = {
-                            AnimatedVisibility(
-                                visibleState = transitionState,
-                            ) {
-                                ItemLog(workout = workout)
-                            }
+                            ItemLog(workout = workout)
                         },
                         background = {
                             val direction = state.dismissDirection ?: return@SwipeToDismiss

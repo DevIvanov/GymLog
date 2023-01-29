@@ -17,7 +17,7 @@ fun LoggerScreen(
     viewModel: LoggerViewModel = hiltViewModel(),
 ) {
     val uiState= viewModel.uiState.collectAsState()
-    Timber.e("LoggerScreen = ${uiState.value}")
+//    Timber.e("LoggerScreen = ${uiState.value}")
 
     when (val state = uiState.value) {
         is LoggerUiState.Loading -> LoggerViewLoading(

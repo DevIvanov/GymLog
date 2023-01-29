@@ -23,7 +23,7 @@ class LoggerViewModel @Inject constructor(
 ): ViewModel(), EventHandler<LoggerEvent> {
 
     val data = interactor.readData().asLiveData()
-    private val temporaryList: MutableList<Workout> = data.value?.toMutableList() ?: mutableListOf()
+    private var lastDeletedItem: Workout? = null
 
     private val _uiState: MutableStateFlow<LoggerUiState> =
         MutableStateFlow(LoggerUiState.Loading(data))
@@ -63,29 +63,28 @@ class LoggerViewModel @Inject constructor(
                 _uiState.value = LoggerUiState.Empty(data)
             }
             is LoggerEvent.DeleteWorkoutFromList -> {
-//                val temporaryList = data.value?.toMutableList()
-//                temporaryList?.remove(event.item)
-//                val temporaryData = MutableLiveData<List<Workout>>(temporaryList)
-//                _uiState.value = currentState.copy(data = temporaryData)
-                if (temporaryList.isEmpty())
-                    data.value?.let { temporaryList.addAll(it) }
-                temporaryList.remove(event.item)
+                if (lastDeletedItem == null) {
+                    lastDeletedItem = event.item
+                } else {
+                    deleteFromDb(event.item)
+                    lastDeletedItem = null
+                }
+                val temporaryList: MutableList<Workout> = mutableListOf()
+                data.value?.let { temporaryList.addAll(it) }
+                Timber.e("data.value = ${data.value}")
                 Timber.e("temporaryList = $temporaryList")
+                temporaryList.remove(event.item)
+                Timber.e("temporaryList removed = $temporaryList")
                 val temporaryData = MutableLiveData<List<Workout>>(temporaryList)
-                _uiState.value = currentState.copy(data = temporaryData)
+                _uiState.value = currentState.copy(data = temporaryData, isTemporary = true)
             }
             is LoggerEvent.DeleteWorkout -> {
                 deleteFromDb(event.item)
-                _uiState.value = currentState.copy(data = data)
-                //check
-                temporaryList.clear()
-                data.value?.let { temporaryList.addAll(it) }
+                _uiState.value = currentState.copy(data = data, isTemporary = false)
             }
             LoggerEvent.CancelDeletion -> {
-                _uiState.value = currentState.copy(data = data)
-                //check
-                temporaryList.clear()
-                data.value?.let { temporaryList.addAll(it) }
+                lastDeletedItem = null
+                _uiState.value = currentState.copy(data = data, isTemporary = false)
             }
             else -> {}
         }
@@ -100,7 +99,6 @@ class LoggerViewModel @Inject constructor(
         } catch (e: Exception) {
             Timber.e("deleteFromDb error = $e")
         }
-
     }
 
 }
