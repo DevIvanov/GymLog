@@ -1,7 +1,10 @@
 package com.ivanovdev.feature.screen.logger.views
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -39,7 +42,7 @@ import com.ivanovdev.library.domainmodel.model.Workout
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun LoggerViewSuccess(
     uiState: LoggerUiState.Success,
@@ -99,13 +102,20 @@ fun LoggerViewSuccess(
                 itemsIndexed(items = uiState.data.value?.toMutableStateList()
                     ?: mutableStateListOf(), key = { _, item ->
                     item.hashCode()
-                }) { _, workout ->
+                }){ _, workout ->
+
+                    val transitionState = remember {
+                        MutableTransitionState(false).apply {
+                            targetState = true
+                        }
+                    }
 
                     val state = rememberDismissState(
                         confirmStateChange = {
                             if (it == DismissValue.DismissedToStart) {
-                                deleteItemFromList(workout)
                                 scope.launch {
+                                    deleteItemFromList(workout)
+                                    transitionState.targetState = !transitionState.targetState
                                     val snackbarResult = scaffoldState.snackbarHostState
                                         .showSnackbar(
                                             message = "Workout is deleted",
@@ -132,14 +142,18 @@ fun LoggerViewSuccess(
                     SwipeToDismiss(
                         state = state,
                         directions = setOf(DismissDirection.EndToStart),
+                        dismissThresholds = { FractionalThreshold(0.2f) },
+                        modifier = Modifier.animateItemPlacement(),
+                        dismissContent = {
+                            AnimatedVisibility(
+                                visibleState = transitionState,
+                            ) {
+                                ItemLog(workout = workout)
+                            }
+                        },
                         background = {
                             val direction = state.dismissDirection ?: return@SwipeToDismiss
 
-//                        val color = when(state.dismissDirection) {
-//                            DismissDirection.StartToEnd -> Color.Transparent
-//                            DismissDirection.EndToStart -> Color.Red
-//                            null -> PrimaryDark
-//                        }
                             val color by animateColorAsState(
                                 when (state.targetValue) {
                                     DismissValue.Default -> Color.Transparent
@@ -173,22 +187,18 @@ fun LoggerViewSuccess(
                                     tint = White
                                 )
                             }
-                        },
-                        dismissThresholds = { FractionalThreshold(0.2f) },
-                        dismissContent = { ItemLog(workout = workout) },
+                        }
                     )
                 }
             }
         }
     }
 
-
 }
-
 
 @Composable
 fun ItemLog(workout: Workout, image: Int = R.drawable.placeholder) {
-    Timber.e("workout = $workout")
+//    Timber.e("workout = $workout")
     Box(modifier = Modifier
         .padding(horizontal = S, vertical = XS)
         .height(200.dp)
